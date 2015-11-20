@@ -1,4 +1,4 @@
 # Clustering of biological sequences
 Clustering of biological sequences.
 
-Description comming soon... (in development) :D
+Description in soon... (in development) :D
