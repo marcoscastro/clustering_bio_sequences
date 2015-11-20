@@ -7,9 +7,9 @@ using namespace std;
 int main(int argc, char *argv[])
 {
 
-	Test test;
+	Tests tests;
 
-	test.run();
+	tests.run();
 
 	return 0;
 }

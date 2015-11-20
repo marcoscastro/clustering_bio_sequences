@@ -2,7 +2,7 @@
 #define _TESTS_H_
 #include "distance.h"
 
-class Test
+class Tests
 {
 public:
 
