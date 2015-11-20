@@ -6,10 +6,11 @@ class Tests
 {
 public:
 
-	void run()
+	void runAllTests()
 	{
 		testLevenshteinDistance1();
 		testLevenshteinDistance2();
+		testLevenshteinDistance3();
 	}
 
 	bool testLevenshteinDistance1()
@@ -45,6 +46,24 @@ public:
 		}
 
 		std::cout << "Fail in the test: testLevenshteinDistance2\n";
+		return false;
+	}
+
+	bool testLevenshteinDistance3()
+	{
+		std::string s1("A"), s2("C");
+		int expected = 1;
+
+		Distance dist(s1, s2);
+		int result = dist.levenshteinDistance();
+
+		if(result == expected)
+		{
+			std::cout << "Success in the test: testLevenshteinDistance3\n";
+			return true;
+		}
+
+		std::cout << "Fail in the test: testLevenshteinDistance3\n";
 		return false;
 	}
 };

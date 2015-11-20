@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
 	Tests tests;
 
-	tests.run();
+	tests.runAllTests();
 
 	return 0;
 }
