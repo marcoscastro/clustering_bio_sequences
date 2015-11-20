@@ -1,16 +1,15 @@
 #include <iostream>
-#include "distance.h"
+#include "tests.h"
 
 using namespace std;
 
 // test distance
 int main(int argc, char *argv[])
 {
-	std::string s1("ACTG"), s2("AAAAAAAAAA");
 
-	Distance dist_levenshtein(s1, s2);
+	Test test;
 
-	cout << dist_levenshtein.levenshteinDistance() << endl;
+	test.run();
 
 	return 0;
 }
