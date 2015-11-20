@@ -13,6 +13,8 @@ Distance::Distance(std::string& s1, std::string& s2)
 	measuring the difference between two sequences
 
 	This implementation uses bottom-up dynamic programming
+	
+	reference: http://www.levenshtein.net/
 */
 int Distance::levenshteinDistance()
 {
