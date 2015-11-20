@@ -4,5 +4,7 @@ Clustering of biological sequences.
 Description in soon... (in development) :)
 
 Contact:
-mcastrosouza@live.com :: https://twitter.com/mcastrosouza
-https://about.me/mcastrosouza :: http://bioinformatica.blog.br
+mcastrosouza@live.com
+<br/>https://twitter.com/mcastrosouza
+<br/>https://about.me/mcastrosouza
+<br/>http://bioinformatica.blog.br
