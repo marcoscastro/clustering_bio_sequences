@@ -145,7 +145,7 @@ public:
 		DistanceStrings dist(s1, s2);
 
 		std::cout << "\nRunning testSequenceGenerator...\n";
-		dist.needlemanWunsch();
+		std::cout << "Score: " << dist.needlemanWunsch() << "\n";
 		std::cout << "Finished testSequenceGenerator!\n";
 	}
 };
