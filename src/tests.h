@@ -13,6 +13,7 @@ public:
 		testLevenshteinDistance3();
 		testNeedlemanWunsch1();
 		testNeedlemanWunsch2();
+		testEuclideanDistance();
 	}
 
 	bool testLevenshteinDistance1()
@@ -68,7 +69,7 @@ public:
 		std::cout << "Fail in the test: testLevenshteinDistance3\n";
 		return false;
 	}
-	
+
 	bool testNeedlemanWunsch1()
 	{
 		std::string s1("GCATGCU"), s2("GATTACA");
@@ -102,6 +103,34 @@ public:
 		}
 
 		std::cout << "Fail in the test: testNeedlemanWunsch2\n";
+		return false;
+	}
+
+	bool testEuclideanDistance()
+	{
+		int vec1[] = {0, 3, 4, 5};
+		int vec2[] = {7, 6, 3, -1};
+		std::vector<double> v1, v2;
+
+		for(int i = 0; i < 4; i++)
+		{
+			v1.push_back(vec1[i]);
+			v2.push_back(vec2[i]);
+		}
+
+		std::string s1("ACTG"), s2("ACTG");
+		int expected = 9;
+
+		Distance dist(s1, s2);
+		int result = dist.euclidean(v1, v2);
+
+		if(result == expected)
+		{
+			std::cout << "Success in the test: testEuclideanDistance\n";
+			return true;
+		}
+
+		std::cout << "Fail in the test: testEuclideanDistance\n";
 		return false;
 	}
 };

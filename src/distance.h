@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include <string>
-#include <map>
+#include <math.h>
 
 /*
 	This file contains function prototypes to calculate
@@ -22,6 +22,7 @@ public:
 	Distance(std::string& s1, std::string& s2);
 	int levenshteinDistance();
 	int needlemanWunsch(int match = 1, int mismatch = -1, int gap = -1);
+	double euclidean(std::vector<double> & v1, std::vector<double> & v2);
 };
 
 #endif

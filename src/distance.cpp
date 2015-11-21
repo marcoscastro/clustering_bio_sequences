@@ -15,7 +15,7 @@ Distance::Distance(std::string& s1, std::string& s2)
 
 	This implementation uses bottom-up dynamic programming.
 
-	Refernece:
+	Reference:
 		http://www.levenshtein.net/
 
 	Return:
@@ -78,4 +78,27 @@ int Distance::needlemanWunsch(int match, int mismatch, int gap)
 	}
 
 	return mat[size_s1][size_s2];
+}
+
+/*
+	Euclidean distance
+
+	Reference:
+		https://en.wikipedia.org/wiki/Euclidean_distance
+
+	Parameters:
+		vectors of coordinates (points in Euclidean n-space)
+
+	Return:
+		euclidean distance
+*/
+double Distance::euclidean(std::vector<double> & v1, std::vector<double> & v2)
+{
+	int size_v = v1.size();
+	double sum = 0;
+
+	for(int i = 0; i < size_v; i++)
+		sum += pow(v1[i] - v2[i], 2);
+
+	return sqrt(sum);
 }
