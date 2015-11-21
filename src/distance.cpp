@@ -62,53 +62,20 @@ int Distance::needlemanWunsch(int match, int mismatch, int gap)
 {
 	std::vector<std::vector<int> > mat(size_s1 + 1,
 									   std::vector<int>(size_s2 + 1));
-	std::map<std::pair<int, int>, std::pair<int, int> > traceback;
 
 	mat[0][0] = 0;
 
 	for(int i = 1; i <= size_s1; i++)
-	{
 		mat[i][0] = mat[i - 1][0] + gap;
-		traceback[std::make_pair(i, 0)] = std::make_pair(i - 1, 0);
-
-	}
 	for(int i = 1; i <= size_s2; i++)
-	{
 		mat[0][i] = mat[0][i - 1] + gap;
-		traceback[std::make_pair(0, i)] = std::make_pair(0, i - 1);
-	}
-
-	int diagonal, top, left;
 
 	for(int i = 1; i <= size_s1; i++)
 	{
 		for(int j = 1; j <= size_s2; j++)
-		{
-			diagonal = mat[i - 1][j - 1] + (s1[i - 1] == s2[j - 1] ? match : mismatch);
-			top = mat[i - 1][j] + gap;
-			left = mat[i][j - 1] + gap;
-			mat[i][j] = std::max(std::max(diagonal, top), left);
-
-			if(diagonal == mat[i][j])
-				traceback[std::make_pair(i, j)] = std::make_pair(i - 1, j - 1);
-			else if(top == mat[i][j])
-				traceback[std::make_pair(i, j)] = std::make_pair(i - 1, j);
-			else
-				traceback[std::make_pair(i, j)] = std::make_pair(i, j - 1);
-		}
+			mat[i][j] = std::max(std::max(mat[i - 1][j] + gap, mat[i][j - 1] + gap),
+								 mat[i - 1][j - 1] + (s1[i - 1] == s2[j - 1] ? match : mismatch));
 	}
 
-	int i = size_s1, j = size_s2, i_next, j_next, score = 0;
-
-	// get the score by traceback
-	while(i > 0 && j > 0)
-	{
-		score += mat[i][j];
-		i_next = traceback[std::make_pair(i, j)].first;
-		j_next = traceback[std::make_pair(i, j)].second;
-		i = i_next;
-		j = j_next;
-	}
-
-	return score;
+	return mat[size_s1][size_s2];
 }
