@@ -6,15 +6,12 @@
 
 using namespace std;
 
-// test distance
 int main(int argc, char *argv[])
 {
 	srand(time(NULL));
 
-	/*
 	Tests tests;
 	tests.runAllTests();
-	*/
 
 	return 0;
 }
