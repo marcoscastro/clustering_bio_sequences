@@ -11,6 +11,7 @@ public:
 		testLevenshteinDistance1();
 		testLevenshteinDistance2();
 		testLevenshteinDistance3();
+		testNeedlemanWunsch1();
 	}
 
 	bool testLevenshteinDistance1()
@@ -64,6 +65,16 @@ public:
 		}
 
 		std::cout << "Fail in the test: testLevenshteinDistance3\n";
+		return false;
+	}
+
+	bool testNeedlemanWunsch1()
+	{
+		std::string s1("ACTG"), s2("ACTC");
+
+		Distance dist(s1, s2);
+		dist.needlemanWunsch();
+
 		return false;
 	}
 };
