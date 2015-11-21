@@ -68,8 +68,7 @@ public:
 		std::cout << "Fail in the test: testLevenshteinDistance3\n";
 		return false;
 	}
-
-	// https://en.wikipedia.org/wiki/Needleman–Wunsch_algorithm
+	
 	bool testNeedlemanWunsch1()
 	{
 		std::string s1("GCATGCU"), s2("GATTACA");
@@ -88,7 +87,6 @@ public:
 		return false;
 	}
 
-	// http://www.avatar.se/molbioinfo2001/dynprog/dynamic.html
 	bool testNeedlemanWunsch2()
 	{
 		std::string s1("GAATTCAGTTA"), s2("GGATCGA");
