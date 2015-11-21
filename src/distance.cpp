@@ -63,7 +63,6 @@ int Distance::needlemanWunsch(int match, int mismatch, int gap)
 	std::vector<std::vector<int> > mat(size_s1 + 1,
 									   std::vector<int>(size_s2 + 1));
 	std::map<std::pair<int, int>, std::pair<int, int> > traceback;
-	int score = 0;
 
 	mat[0][0] = 0;
 
@@ -99,8 +98,7 @@ int Distance::needlemanWunsch(int match, int mismatch, int gap)
 		}
 	}
 
-	int i = size_s1, j = size_s2, i_next, j_next;
-	std::pair<int, int> my_pair;
+	int i = size_s1, j = size_s2, i_next, j_next, score = 0;
 
 	// get the score by traceback
 	while(i > 0 && j > 0)

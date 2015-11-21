@@ -70,10 +70,10 @@ public:
 
 	bool testNeedlemanWunsch1()
 	{
-		std::string s1("ACTG"), s2("ACTC");
+		std::string s1("GCATGCU"), s2("GATTACA");
 
 		Distance dist(s1, s2);
-		dist.needlemanWunsch();
+		std::cout << dist.needlemanWunsch();
 
 		return false;
 	}

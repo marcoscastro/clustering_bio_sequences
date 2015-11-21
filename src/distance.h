@@ -1,12 +1,10 @@
 #ifndef _DISTANCE_H_
 #define _DISTANCE_H_
 
-#include <iostream>
-#include <string>
-#include <vector>
 #include <algorithm>
+#include <vector>
+#include <string>
 #include <map>
-#include <utility>
 
 /*
 	This file contains function prototypes to calculate
