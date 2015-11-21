@@ -3,6 +3,7 @@
 #include "distance_strings.h"
 #include "distance_points.h"
 #include "common.h"
+#include "sequence_generator.h"
 
 class Tests
 {
@@ -16,6 +17,7 @@ public:
 		testNeedlemanWunsch1();
 		testNeedlemanWunsch2();
 		testEuclideanDistance();
+		testSequenceGenerator();
 	}
 
 	bool testLevenshteinDistance1()
@@ -122,7 +124,7 @@ public:
 
 		double expected = 9.74679;
 		double result = euclidean(v1, v2);
-		
+
 		if(double_equals(result, expected))
 		{
 			std::cout << "Success in the test: testEuclideanDistance\n";
@@ -131,6 +133,20 @@ public:
 
 		std::cout << "Fail in the test: testEuclideanDistance\n";
 		return false;
+	}
+
+	void testSequenceGenerator()
+	{
+		SequenceGenerator gen;
+		std::vector<std::string> sequences;
+
+		gen.generateSequences(sequences, 2, 1000, 10000);
+		std::string s1(sequences[0]), s2(sequences[1]);
+		DistanceStrings dist(s1, s2);
+
+		std::cout << "\nRunning testSequenceGenerator...\n";
+		dist.needlemanWunsch();
+		std::cout << "Finished testSequenceGenerator!\n";
 	}
 };
 

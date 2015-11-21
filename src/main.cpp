@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include "tests.h"
-#include "sequence_generator.h"
 
 using namespace std;
 
