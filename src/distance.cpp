@@ -11,10 +11,14 @@ Distance::Distance(std::string& s1, std::string& s2)
 /*
 	Levenshtein distance: string metric for
 	measuring the difference between two sequences
+	Levenshtein is a measure of dissimilarity
 
 	This implementation uses bottom-up dynamic programming
-	
+
 	reference: http://www.levenshtein.net/
+
+	Return
+		score of dissimilarity
 */
 int Distance::levenshteinDistance()
 {
@@ -34,4 +38,23 @@ int Distance::levenshteinDistance()
 								 mat[i - 1][j - 1] + (s1[i - 1] == s2[j - 1] ? 0 : 1));
 
 	return mat[size_s1][size_s2];
+}
+
+/*
+	Needleman-Wunsch algorithm
+	An algorithm to align sequences.
+
+	reference: https://en.wikipedia.org/wiki/Needleman–Wunsch_algorithm
+
+	Parameters
+		match
+		mistmatch
+		gap
+
+	Return
+		score of the alignment
+*/
+int Distance::needlemanWunsch(int match, int mismatch, int gap)
+{
+	return 0;
 }

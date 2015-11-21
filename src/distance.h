@@ -19,7 +19,7 @@ private:
 public:
 	Distance(std::string& s1, std::string& s2);
 	int levenshteinDistance();
-
+	int needlemanWunsch(int match, int mismatch, int gap);
 };
 
 #endif
