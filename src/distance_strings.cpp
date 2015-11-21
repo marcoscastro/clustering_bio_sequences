@@ -1,6 +1,6 @@
-#include "distance.h"
+#include "distance_strings.h"
 
-Distance::Distance(std::string& s1, std::string& s2)
+DistanceStrings::DistanceStrings(std::string& s1, std::string& s2)
 {
 	this->s1 = s1;
 	this->s2 = s2;
@@ -21,7 +21,7 @@ Distance::Distance(std::string& s1, std::string& s2)
 	Return:
 		score of dissimilarity
 */
-int Distance::levenshteinDistance()
+int DistanceStrings::levenshteinDistance()
 {
 	std::vector<std::vector<unsigned int> > mat(size_s1 + 1,
 			std::vector<unsigned int>(size_s2 + 1));
@@ -58,7 +58,7 @@ int Distance::levenshteinDistance()
 	Return:
 		score of the alignment
 */
-int Distance::needlemanWunsch(int match, int mismatch, int gap)
+int DistanceStrings::needlemanWunsch(int match, int mismatch, int gap)
 {
 	std::vector<std::vector<int> > mat(size_s1 + 1,
 									   std::vector<int>(size_s2 + 1));
@@ -78,27 +78,4 @@ int Distance::needlemanWunsch(int match, int mismatch, int gap)
 	}
 
 	return mat[size_s1][size_s2];
-}
-
-/*
-	Euclidean distance
-
-	Reference:
-		https://en.wikipedia.org/wiki/Euclidean_distance
-
-	Parameters:
-		vectors of coordinates (points in Euclidean n-space)
-
-	Return:
-		euclidean distance
-*/
-double Distance::euclidean(std::vector<double> & v1, std::vector<double> & v2)
-{
-	int size_v = v1.size();
-	double sum = 0;
-
-	for(int i = 0; i < size_v; i++)
-		sum += pow(v1[i] - v2[i], 2);
-
-	return sqrt(sum);
 }

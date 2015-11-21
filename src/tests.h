@@ -1,6 +1,8 @@
 #ifndef _TESTS_H_
 #define _TESTS_H_
-#include "distance.h"
+#include "distance_strings.h"
+#include "distance_points.h"
+#include "common.h"
 
 class Tests
 {
@@ -21,7 +23,7 @@ public:
 		std::string s1("AACTGG"), s2("ACTGGGG");
 		int expected = 3;
 
-		Distance dist(s1, s2);
+		DistanceStrings dist(s1, s2);
 		int result = dist.levenshteinDistance();
 
 		if(result == expected)
@@ -39,7 +41,7 @@ public:
 		std::string s1("CCCCTGACACACTG"), s2("CTCTG");
 		int expected = 9;
 
-		Distance dist(s1, s2);
+		DistanceStrings dist(s1, s2);
 		int result = dist.levenshteinDistance();
 
 		if(result == expected)
@@ -57,7 +59,7 @@ public:
 		std::string s1("A"), s2("C");
 		int expected = 1;
 
-		Distance dist(s1, s2);
+		DistanceStrings dist(s1, s2);
 		int result = dist.levenshteinDistance();
 
 		if(result == expected)
@@ -75,7 +77,7 @@ public:
 		std::string s1("GCATGCU"), s2("GATTACA");
 		int expected = 0;
 
-		Distance dist(s1, s2);
+		DistanceStrings dist(s1, s2);
 		int result = dist.needlemanWunsch();
 
 		if(result == expected)
@@ -93,7 +95,7 @@ public:
 		std::string s1("GAATTCAGTTA"), s2("GGATCGA");
 		int expected = 6;
 
-		Distance dist(s1, s2);
+		DistanceStrings dist(s1, s2);
 		int result = dist.needlemanWunsch(1, 0, 0);
 
 		if(result == expected)
@@ -118,16 +120,10 @@ public:
 			v2.push_back(vec2[i]);
 		}
 
-		std::string s1("ACTG"), s2("ACTG");
 		double expected = 9.74679;
-
-		Distance dist(s1, s2);
-		double result = dist.euclidean(v1, v2);
+		double result = euclidean(v1, v2);
 		
-		std::cout << expected << "\n";
-		std::cout << result << "\n";
-
-		if(result == expected)
+		if(double_equals(result, expected))
 		{
 			std::cout << "Success in the test: testEuclideanDistance\n";
 			return true;
