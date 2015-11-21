@@ -108,8 +108,8 @@ public:
 
 	bool testEuclideanDistance()
 	{
-		int vec1[] = {0, 3, 4, 5};
-		int vec2[] = {7, 6, 3, -1};
+		double vec1[] = {0, 3, 4, 5};
+		double vec2[] = {7, 6, 3, -1};
 		std::vector<double> v1, v2;
 
 		for(int i = 0; i < 4; i++)
@@ -119,10 +119,13 @@ public:
 		}
 
 		std::string s1("ACTG"), s2("ACTG");
-		int expected = 9;
+		double expected = 9.74679;
 
 		Distance dist(s1, s2);
-		int result = dist.euclidean(v1, v2);
+		double result = dist.euclidean(v1, v2);
+		
+		std::cout << expected << "\n";
+		std::cout << result << "\n";
 
 		if(result == expected)
 		{
