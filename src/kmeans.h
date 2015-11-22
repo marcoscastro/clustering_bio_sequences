@@ -130,6 +130,7 @@ private:
 	std::vector<Cluster> clusters;
 	std::vector<Point> points;
 	std::vector<std::string> sequences;
+	bool kmeansplusplus;
 
 private:
 
@@ -206,7 +207,7 @@ private:
 public:
 	KMeans(int total_clusters, int total_points, int total_attributes,
 		   int max_iterations, std::vector<std::string> & sequences,
-		   std::string method = "NW")
+		   std::string method = "NW", bool kmeansplusplus = false)
 	{
 		this->total_clusters = total_clusters;
 		this->total_points = total_points;
@@ -216,6 +217,8 @@ public:
 
 		if(method == "NW")
 			generatesPointsWithNW();
+
+		this->kmeansplusplus = kmeansplusplus;
 	}
 
 	void run()
@@ -227,25 +230,117 @@ public:
 			return;
 		}
 
-		std::vector<int> prohibited_indexes;
-
-		// choose total_clusters values for the centers of the clusters
-		// this is slow, must be optimized
-		for(int i = 0; i < total_clusters; i++)
+		if(!kmeansplusplus)
 		{
-			while(true)
-			{
-				int index_point = rand() % total_points;
+			std::vector<int> prohibited_indexes;
 
-				if(find(prohibited_indexes.begin(), prohibited_indexes.end(),
-						index_point) == prohibited_indexes.end())
+			// choose total_clusters values for the centers of the clusters
+			// this is slow, must be optimized
+			for(int i = 0; i < total_clusters; i++)
+			{
+				while(true)
 				{
-					prohibited_indexes.push_back(index_point);
-					points[index_point].setCluster(i);
-					Cluster cluster(i, points[index_point]);
-					clusters.push_back(cluster);
-					break;
+					int point_index = rand() % total_points;
+
+					if(find(prohibited_indexes.begin(), prohibited_indexes.end(),
+							point_index) == prohibited_indexes.end())
+					{
+						prohibited_indexes.push_back(point_index);
+						points[point_index].setCluster(i);
+						Cluster cluster(i, points[point_index]);
+						clusters.push_back(cluster);
+						break;
+					}
 				}
+			}
+		}
+		else
+		{
+			/*
+				kmeans++ for choosing centers
+				reference:
+					https://gist.github.com/slongwell/bc3f8738b943eb41d397
+			*/
+
+			std::vector<double> probabilities(total_points);
+			std::vector<bool> points_chosen(total_points);
+			int cluster_index = 0;
+
+			// take one center, chosen uniformly at random of data point
+			int point_index = rand() % total_points;
+
+			Cluster cluster(cluster_index, points[point_index]);
+
+			clusters.push_back(cluster);
+			points[point_index].setCluster(cluster_index);
+			points_chosen[point_index] = true;
+			cluster_index++;
+
+			// until have taken total_centers altogether
+			while(cluster_index < total_clusters)
+			{
+				// for each data point that still was not chosen
+				for(int i = 0; i < total_points; i++)
+				{
+					if(!points_chosen[i])
+					{
+						/*
+							for every data point calculate the minimum
+							SSD to any of the stored cluster centers.
+							Store these minimum distances, one per data
+							point, in a vector.
+							SSD = sum of difference squared (euclidean squared)
+						*/
+						for(int j = 0; j < cluster_index; j++)
+						{
+							double SSD = 0.0;
+
+							for(int k = 0; k < total_attributes; k++)
+							{
+								SSD += pow(points[i].getValue(k)
+										   - clusters[j].getCentralValue(k), 2.0);
+							}
+
+							if(j == 0)
+								probabilities[i] = SSD;
+							else if(SSD < probabilities[i])
+								probabilities[i] = SSD;
+						}
+					}
+				}
+
+				/*
+					convert the vector of probabilities to a discrete
+					probability distribution(divide by the sum of the vector)
+					use this probability distribution to weight the selection
+					of the another data point as next cluster center
+
+					ps.: a data point that has already been selected
+					has 0 probability of being select again: its SSD
+					to the nearest center is 0
+				*/
+
+				double high_prob = -1;
+
+				// the highest probability is selected
+				for(int i = 0; i < total_points; i++)
+				{
+					if(!points_chosen[i])
+					{
+						if(probabilities[i] > high_prob)
+						{
+							point_index = i;
+							high_prob = probabilities[i];
+						}
+					}
+				}
+
+				Cluster cluster(cluster_index, points[point_index]);
+
+				clusters.push_back(cluster);
+				points[point_index].setCluster(cluster_index);
+				points_chosen[point_index] = true;
+				cluster_index++;
 			}
 		}
 
@@ -272,19 +367,53 @@ public:
 				}
 			}
 
-			// recalculating the center of each cluster
-			for(int i = 0; i < total_clusters; i++)
-			{
-				for(int j = 0; j < total_attributes; j++)
-				{
-					int total_points_cluster = clusters[i].getTotalPoints();
-					double sum = 0.0;
+			/*
+				hybrid clustering method based two techniques
+				(harmonic mean and arithmetic mean) for
+				recalculating the center of each cluster
+			*/
 
-					if(total_points_cluster > 0)
+			if(iter % 2 == 3)
+			{
+				// recompute centers using harmonic mean
+
+				for(int i = 0; i < total_clusters; i++)
+				{
+					for(int j = 0; j < total_attributes; j++)
 					{
-						for(int p = 0; p < total_points_cluster; p++)
-							sum += clusters[i].getPoint(p).getValue(j);
-						clusters[i].setCentralValue(j, sum / total_points_cluster);
+						int total_points_cluster = clusters[i].getTotalPoints();
+						double sum = 0.0;
+
+						if(total_points_cluster > 0)
+						{
+							for(int p = 0; p < total_points_cluster; p++)
+							{
+								if(clusters[i].getPoint(p).getValue(j) != 0)
+									sum += 1.0 / clusters[i].getPoint(p).getValue(j);
+							}
+
+							clusters[i].setCentralValue(j, sum / total_points_cluster);
+						}
+					}
+				}
+			}
+			else
+			{
+				// recompute centers using arithmetic mean
+
+				for(int i = 0; i < total_clusters; i++)
+				{
+					for(int j = 0; j < total_attributes; j++)
+					{
+						int total_points_cluster = clusters[i].getTotalPoints();
+						double sum = 0.0;
+
+						if(total_points_cluster > 0)
+						{
+							for(int p = 0; p < total_points_cluster; p++)
+								sum += clusters[i].getPoint(p).getValue(j);
+							clusters[i].setCentralValue(j, sum / total_points_cluster);
+						}
 					}
 				}
 			}

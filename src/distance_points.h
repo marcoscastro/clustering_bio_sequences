@@ -16,10 +16,10 @@
 double euclidean(std::vector<double> & v1, std::vector<double> & v2)
 {
 	int size_v = v1.size();
-	double sum = 0;
+	double sum = 0.0;
 
 	for(int i = 0; i < size_v; i++)
-		sum += pow(v1[i] - v2[i], 2);
+		sum += pow(v1[i] - v2[i], 2.0);
 
 	return sqrt(sum);
 }

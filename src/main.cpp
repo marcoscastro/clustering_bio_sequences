@@ -18,18 +18,20 @@ int main(int argc, char *argv[])
 	SequenceGenerator gen;
 	std::vector<std::string> sequences;
 
-	// Generates 10 sequences of size between 10 e 20
-	gen.generateSequences(sequences, 50, 10, 20);
+	gen.generateSequences(sequences, 500, 50, 50);
 
 	/*
 		Parameters in order:
-			number of clusters
-			total points
-			total attributes
-			max iterations
-			sequences
+			1) number of clusters
+			2) total points
+			3) total attributes
+			4) max iterations
+			5) sequences
+			6) method for convert to a data point
+			7) uses kmeans++ ?
 	*/
-	KMeans kmeans(2, sequences.size(), sequences.size(), 100, sequences);
+	KMeans kmeans(3, sequences.size(), sequences.size(),
+				  100, sequences, "NW", true);
 
 	kmeans.run();
 
