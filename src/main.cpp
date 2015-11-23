@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <map>
 #include "tests.h"
 #include "kmeans.h"
 
@@ -18,7 +19,7 @@ int main(int argc, char *argv[])
 	SequenceGenerator gen;
 	std::vector<std::string> sequences;
 
-	gen.generateSequences(sequences, 100, 50, 500);
+	gen.generateSequences(sequences, 100, 50, 1000);
 
 	/*
 		Parameters in order:
@@ -30,7 +31,7 @@ int main(int argc, char *argv[])
 			6) method for convert to a data point
 			7) uses kmeans++ ?
 	*/
-	KMeans kmeans(5, sequences.size(), sequences.size(),
+	KMeans kmeans(10, sequences.size(), sequences.size(),
 				  100, sequences, "NW", true);
 
 	kmeans.run();

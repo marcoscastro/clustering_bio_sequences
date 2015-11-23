@@ -254,11 +254,7 @@ public:
 		}
 		else
 		{
-			/*
-				kmeans++ for choosing centers
-				reference:
-					https://gist.github.com/slongwell/bc3f8738b943eb41d397
-			*/
+			// k-means++ initializer
 
 			std::vector<double> probabilities(total_points);
 			std::vector<bool> points_chosen(total_points);
@@ -291,13 +287,11 @@ public:
 						*/
 						for(int j = 0; j < cluster_index; j++)
 						{
-							double SSD = 0.0;
+							double SSD = 0;
 
 							for(int k = 0; k < total_attributes; k++)
-							{
 								SSD += pow(points[i].getValue(k)
 										   - clusters[j].getCentralValue(k), 2.0);
-							}
 
 							if(j == 0)
 								probabilities[i] = SSD;
@@ -318,17 +312,66 @@ public:
 					to the nearest center is 0
 				*/
 
-				double high_prob = -1;
+				double sum_probs = 0;
 
-				// the highest probability is selected
+				for(int i = 0; i < total_points; i++)
+				{
+					if(!points_chosen[i])
+						sum_probs += probabilities[i];
+				}
+
+				std::map<int, std::vector<int> > tickets;
+				int id_ticket = 1;
+
 				for(int i = 0; i < total_points; i++)
 				{
 					if(!points_chosen[i])
 					{
-						if(probabilities[i] > high_prob)
+						// transform probabilitie
+						probabilities[i] = (probabilities[i] / sum_probs) * 100;
+
+						/*
+							add +0.5 before casting to int because
+							the compiler will always truncate
+						*/
+						probabilities[i] = probabilities[i] + 0.5;
+						int amount_tickets = (int)probabilities[i];
+
+						if(amount_tickets == 0)
+							amount_tickets = 1;
+
+						for(int j = 1; j <= amount_tickets; j++)
 						{
-							point_index = i;
-							high_prob = probabilities[i];
+							tickets[i].push_back(id_ticket);
+							id_ticket++;
+						}
+					}
+				}
+
+				/*
+				std::cout << "tickets:\n";
+				for(std::map<int, std::vector<int> >::iterator it = tickets.begin(); it != tickets.end(); it++)
+				{
+					std::cout << "Tickets " << it->first << ": ";
+
+					for(unsigned int i = 0; i < (it->second).size(); i++)
+						std::cout << (it->second)[i] << " ";
+					std::cout << "\n";
+				}
+				std::cout << "\nend tickets\n\n";
+				*/
+
+				int choosen_ticket = rand() % (id_ticket - 1) + 1;
+
+				std::map<int, std::vector<int> >::iterator it;
+				for(it = tickets.begin(); it != tickets.end(); it++)
+				{
+					for(unsigned int i = 0; i < (it->second).size(); i++)
+					{
+						if((it->second)[i] == choosen_ticket)
+						{
+							point_index = it->first;
+							break;
 						}
 					}
 				}
@@ -338,6 +381,7 @@ public:
 				clusters.push_back(cluster);
 				points[point_index].setCluster(cluster_index);
 				points_chosen[point_index] = true;
+				probabilities[point_index] = 0;
 				cluster_index++;
 			}
 		}
@@ -373,6 +417,7 @@ public:
 
 			if(iter % 2 == 3)
 			{
+				// DONT WORK!
 				// recompute centers using harmonic mean
 
 				for(int i = 0; i < total_clusters; i++)
@@ -380,7 +425,7 @@ public:
 					for(int j = 0; j < total_attributes; j++)
 					{
 						int total_points_cluster = clusters[i].getTotalPoints();
-						double sum = 0.0;
+						double sum = 0;
 
 						if(total_points_cluster > 0)
 						{
