@@ -173,10 +173,8 @@ private:
 			sum = 0.0;
 
 			for(int j = 0; j < total_attributes; j++)
-			{
 				sum += pow(clusters[i].getCentralValue(j) -
 						   point.getValue(j), 2.0);
-			}
 
 			dist = sqrt(sum);
 
@@ -388,11 +386,11 @@ public:
 						{
 							for(int p = 0; p < total_points_cluster; p++)
 							{
-								if(clusters[i].getPoint(p).getValue(j) != 0)
+								if(clusters[i].getPoint(p).getValue(j) != 0.0)
 									sum += 1.0 / clusters[i].getPoint(p).getValue(j);
 							}
 
-							clusters[i].setCentralValue(j, sum / total_points_cluster);
+							clusters[i].setCentralValue(j, total_points_cluster / sum);
 						}
 					}
 				}
