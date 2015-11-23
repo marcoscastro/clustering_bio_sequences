@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	SequenceGenerator gen;
 	std::vector<std::string> sequences;
 
-	gen.generateSequences(sequences, 5, 25, 50);
+	gen.generateSequences(sequences, 500, 1, 50);
 
 	/*
 		Parameters in order:
@@ -30,7 +30,8 @@ int main(int argc, char *argv[])
 			6) method for convert to a data point
 			7) uses kmeans++ ?
 	*/
-	KMeans kmeans(2, sequences.size(), sequences.size(),
+
+	KMeans kmeans(10, sequences.size(), sequences.size(),
 				  100, sequences, "NW", true);
 
 	kmeans.run();

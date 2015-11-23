@@ -144,10 +144,7 @@ private:
 			std::vector<double> values;
 
 			for(int j = 0; j < total_attributes; j++)
-			{
-				DistanceStrings dist(sequences[i], sequences[j]);
-				values.push_back(dist.needlemanWunsch());
-			}
+				values.push_back(needlemanWunsch(sequences[i], sequences[j]));
 
 			Point point(i, values, sequences[i]);
 			points.push_back(point);
