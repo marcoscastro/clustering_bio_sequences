@@ -21,7 +21,7 @@ private:
 public:
 	DistanceStrings(std::string& s1, std::string& s2);
 	int levenshteinDistance();
-	int needlemanWunsch(int match = 1, int mismatch = -1, int gap = -1);
+	int needlemanWunsch(int match = 1, int mismatch = -10, int gap = -10);
 };
 
 #endif

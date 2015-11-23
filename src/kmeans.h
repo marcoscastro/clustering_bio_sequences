@@ -1,5 +1,6 @@
 #ifndef _KMEANS_H_
 #define _KMEANS_H_
+#include <map>
 #include "distance_strings.h"
 
 class Point
@@ -160,10 +161,8 @@ private:
 		int id_cluster_center = 0;
 
 		for(int i = 0; i < total_attributes; i++)
-		{
 			sum += pow(clusters[0].getCentralValue(i) -
 					   point.getValue(i), 2.0);
-		}
 
 		min_dist = sqrt(sum);
 
