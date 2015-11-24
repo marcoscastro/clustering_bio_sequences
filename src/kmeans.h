@@ -154,7 +154,7 @@ private:
 	// return ID of nearest center (uses euclidean distance)
 	int getIDNearestCenter(Point & point)
 	{
-		double sum = 0.0, min_dist;
+		double sum = 0.0, min_dist, dist;
 		int id_cluster_center = 0;
 
 		for(int i = 0; i < total_attributes; i++)
@@ -165,7 +165,6 @@ private:
 
 		for(int i = 1; i < total_clusters; i++)
 		{
-			double dist;
 			sum = 0.0;
 
 			for(int j = 0; j < total_attributes; j++)
