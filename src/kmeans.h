@@ -342,19 +342,6 @@ public:
 					}
 				}
 
-				/*
-				std::cout << "tickets:\n";
-				for(std::map<int, std::vector<int> >::iterator it = tickets.begin(); it != tickets.end(); it++)
-				{
-					std::cout << "Tickets " << it->first << ": ";
-
-					for(unsigned int i = 0; i < (it->second).size(); i++)
-						std::cout << (it->second)[i] << " ";
-					std::cout << "\n";
-				}
-				std::cout << "\nend tickets\n\n";
-				*/
-
 				int choosen_ticket = rand() % (id_ticket - 1) + 1;
 
 				std::map<int, std::vector<int> >::iterator it;

@@ -62,6 +62,8 @@ public:
 
 	void showSequences()
 	{
+		std::cout << "\nShowing sequences of the FASTA file:\n\n";
+		
 		std::map<std::string, std::string>::iterator it;
 
 		for(it = sequences.begin(); it != sequences.end(); it++)

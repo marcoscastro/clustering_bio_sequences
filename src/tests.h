@@ -12,7 +12,6 @@ public:
 
 	void runAllTests()
 	{
-		/*
 		testLevenshteinDistance1();
 		testLevenshteinDistance2();
 		testLevenshteinDistance3();
@@ -20,8 +19,6 @@ public:
 		testNeedlemanWunsch2();
 		testEuclideanDistance();
 		testSequenceGenerator();
-		*/
-		
 		testFastaFile();
 	}
 
