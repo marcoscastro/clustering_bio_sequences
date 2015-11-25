@@ -7,10 +7,9 @@ class Point
 {
 
 private:
-	int id_point, id_cluster;
+	int id_point, id_cluster, total_values;
 	std::vector<double> values;
 	std::string name;
-	int total_values;
 
 public:
 	Point(int id_point, std::vector<double> & values, std::string & name)

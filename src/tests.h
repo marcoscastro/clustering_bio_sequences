@@ -4,6 +4,7 @@
 #include "distance_points.h"
 #include "sequence_generator.h"
 #include "common.h"
+#include "read_fasta.h"
 
 class Tests
 {
@@ -11,6 +12,7 @@ public:
 
 	void runAllTests()
 	{
+		/*
 		testLevenshteinDistance1();
 		testLevenshteinDistance2();
 		testLevenshteinDistance3();
@@ -18,6 +20,9 @@ public:
 		testNeedlemanWunsch2();
 		testEuclideanDistance();
 		testSequenceGenerator();
+		*/
+		
+		testFastaFile();
 	}
 
 	bool testLevenshteinDistance1()
@@ -136,6 +141,13 @@ public:
 		std::cout << "\nRunning testSequenceGenerator...\n";
 		std::cout << "Score: " << needlemanWunsch(s1, s2) << "\n";
 		std::cout << "Finished testSequenceGenerator!\n";
+	}
+	
+	void testFastaFile()
+	{
+		FastaFile fasta_file("test.fasta");
+		
+		fasta_file.showSequences();
 	}
 };
 

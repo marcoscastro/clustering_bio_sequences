@@ -10,15 +10,15 @@ int main(int argc, char *argv[])
 {
 	srand(time(NULL));
 
-	/*
 	Tests tests;
 	tests.runAllTests();
-	*/
 	
+	/*
 	SequenceGenerator gen;
 	std::vector<std::string> sequences;
+	*/
 
-	gen.generateSequences(sequences, 50, 1, 25);
+	//gen.generateSequences(sequences, 50, 1, 25);
 
 	/*
 		Parameters in order:
@@ -31,10 +31,12 @@ int main(int argc, char *argv[])
 			7) uses kmeans++ ?
 	*/
 
+	/*
 	KMeans kmeans(5, sequences.size(), sequences.size(),
 				  100, sequences, "NW", true);
 
 	kmeans.run();
+	*/
 
 	return 0;
 }
