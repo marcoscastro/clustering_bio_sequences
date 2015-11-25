@@ -58,7 +58,7 @@ int levenshteinDistance(std::string & s1, std::string & s2)
 		score of the alignment
 */
 double needlemanWunsch(std::string & s1, std::string & s2, double match = 1,
-					   double mismatch = -1, double gap = -1)
+					   double mismatch = 0, double gap = 0)
 {
 	int size_s1 = s1.size(), size_s2 = s2.size();
 	std::vector<std::vector<double> > mat(size_s1 + 1,

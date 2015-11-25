@@ -3,7 +3,7 @@
 
 bool double_equals(double x, double y, double epsilon = 0.001)
 {
-	return (abs(x - y) < epsilon);
+	return (fabs(x - y) < epsilon);
 }
 
 #endif

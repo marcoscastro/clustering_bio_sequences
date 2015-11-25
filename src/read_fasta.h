@@ -36,7 +36,6 @@ private:
 						content.clear();
 						flag_insert = false;
 					}
-
 					name = line.substr(1);
 				}
 				else

@@ -130,7 +130,7 @@ private:
 	std::vector<Cluster> clusters;
 	std::vector<Point> points;
 	std::vector<std::string> sequences;
-	bool kmeansplusplus;
+	bool kmeansplusplus, show_results;
 
 private:
 
@@ -199,7 +199,8 @@ private:
 public:
 	KMeans(int total_clusters, int total_points, int total_attributes,
 		   int max_iterations, std::vector<std::string> & sequences,
-		   std::string method = "NW", bool kmeansplusplus = false)
+		   std::string method = "NW", bool kmeansplusplus = false,
+		   bool show_results = true)
 	{
 		this->total_clusters = total_clusters;
 		this->total_points = total_points;
@@ -211,6 +212,7 @@ public:
 			generatesPointsWithNW();
 
 		this->kmeansplusplus = kmeansplusplus;
+		this->show_results = show_results;
 	}
 
 	void run()
@@ -371,6 +373,8 @@ public:
 
 		while(true)
 		{
+			//showClusters();
+
 			bool done = true;
 
 			// associates each point to the nearest center
@@ -396,10 +400,15 @@ public:
 				recalculating the center of each cluster
 			*/
 
-			if(iter % 2 == 3)
+			if(iter % 2 == 0)
 			{
-				// DONT WORK!
-				// recompute centers using harmonic mean
+				/*
+					recompute centers using harmonic mean
+
+					harmonic mean inflates result for negative numbers
+					because decrease the denominator, therefore harmonic
+					mean makes absolutely no sense for negative numbers
+				*/
 
 				for(int i = 0; i < total_clusters; i++)
 				{
@@ -412,11 +421,13 @@ public:
 						{
 							for(int p = 0; p < total_points_cluster; p++)
 							{
-								if(clusters[i].getPoint(p).getValue(j) != 0.0)
+
+								if((double_equals(clusters[i].getPoint(p).getValue(j), 0)) == false)
 									sum += 1.0 / clusters[i].getPoint(p).getValue(j);
 							}
 
-							clusters[i].setCentralValue(j, total_points_cluster / sum);
+							clusters[i].setCentralValue(j, ((double_equals(sum, 0) == true) ? 0 :
+															total_points_cluster / sum));
 						}
 					}
 				}
@@ -436,6 +447,7 @@ public:
 						{
 							for(int p = 0; p < total_points_cluster; p++)
 								sum += clusters[i].getPoint(p).getValue(j);
+
 							clusters[i].setCentralValue(j, sum / total_points_cluster);
 						}
 					}
@@ -445,7 +457,8 @@ public:
 			if(done == true || iter >= max_iterations)
 			{
 				std::cout << "Break in iteration " << iter << "\n\n";
-				showClusters();
+				if(show_results)
+					showClusters();
 				break;
 			}
 
