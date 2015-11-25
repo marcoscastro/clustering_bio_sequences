@@ -139,11 +139,11 @@ public:
 		std::cout << "Score: " << needlemanWunsch(s1, s2) << "\n";
 		std::cout << "Finished testSequenceGenerator!\n";
 	}
-	
+
 	void testFastaFile()
 	{
 		FastaFile fasta_file("test.fasta");
-		
+
 		fasta_file.showSequences();
 	}
 };

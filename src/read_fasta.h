@@ -46,7 +46,7 @@ private:
 				}
 			}
 		}
-		
+
 		if(!content.empty())
 			sequences[name] = content;
 
@@ -63,10 +63,16 @@ public:
 	void showSequences()
 	{
 		std::cout << "\nShowing sequences of the FASTA file:\n\n";
-		
+
 		std::map<std::string, std::string>::iterator it;
 
 		for(it = sequences.begin(); it != sequences.end(); it++)
 			std::cout << it->first << "\n" << it->second << "\n\n";
+	}
+
+	// return the map of the sequences
+	const std::map<std::string, std::string> & getSequences()
+	{
+		return sequences;
 	}
 };
