@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	SequenceGenerator gen;
 	std::vector<std::string> sequences;
 
-	gen.generateSequences(sequences, 100, 100, 200);
+	gen.generateSequences(sequences, 100, 50, 100);
 
 	/*
 		Parameters in order:
@@ -33,8 +33,14 @@ int main(int argc, char *argv[])
 			9) show results ?
 	*/
 
+	string method("WS");
+	bool kmeansplusplus = true;
+	bool hybrid = true;
+	bool show_results = true;
+
 	KMeans kmeans(5, sequences.size(), sequences.size(),
-				  100, sequences, "WS", true, true, true);
+				  100, sequences, method, kmeansplusplus,
+				  hybrid, show_results);
 
 	kmeans.run();
 

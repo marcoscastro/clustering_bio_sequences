@@ -138,6 +138,7 @@ private:
 	{
 		// calculates distances between all sequences
 
+		// use needleman-wunsch (global alignment)
 		if(method == "NW")
 		{
 			for(int i = 0; i < total_points; i++)
@@ -151,6 +152,7 @@ private:
 				points.push_back(point);
 			}
 		}
+		// use simon white similarity
 		else if(method == "WS")
 		{
 			for(int i = 0; i < total_points; i++)
@@ -163,6 +165,14 @@ private:
 				Point point(i, values, sequences[i]);
 				points.push_back(point);
 			}
+		}
+		else
+		{
+			std::cerr << "\nError: method \"" << method << "\" not found.\n";
+			std::cerr << "\nAvailable methods:\n\n";
+			std::cerr << "\tNW - needleman-wunsch (global alignment)\n";
+			std::cerr << "\tWS - white similarity (similarity ranking)\n";
+			exit(1);
 		}
 	}
 

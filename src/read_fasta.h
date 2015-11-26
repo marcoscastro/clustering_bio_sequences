@@ -17,7 +17,7 @@ private:
 
 		if(!input.good())
 		{
-			std::cerr << "Error opening file.\n";
+			std::cerr << "Error opening FASTA file.\n";
 			return false;
 		}
 
