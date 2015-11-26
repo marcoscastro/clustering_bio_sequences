@@ -6,19 +6,33 @@
 
 using namespace std;
 
+void run_tests();
+void run_algorithm();
+
 int main(int argc, char *argv[])
 {
 	srand(time(NULL));
 
-	/*
+	//run_tests();
+	run_algorithm();
+
+	return 0;
+}
+
+void run_tests()
+{
 	Tests tests;
 	tests.runAllTests();
-	*/
+}
 
+void run_algorithm()
+{
 	SequenceGenerator gen;
 	std::vector<std::string> sequences;
+	
+	int amount_sequences = 50;
 
-	gen.generateSequences(sequences, 100, 50, 100);
+	gen.generateSequences(sequences, amount_sequences, 45, 50);
 
 	/*
 		Parameters in order:
@@ -33,16 +47,16 @@ int main(int argc, char *argv[])
 			9) show results ?
 	*/
 
+	int clusters = 5;
+	int max_iter = 100;
 	string method("WS");
 	bool kmeansplusplus = true;
 	bool hybrid = true;
 	bool show_results = true;
 
-	KMeans kmeans(5, sequences.size(), sequences.size(),
-				  100, sequences, method, kmeansplusplus,
+	KMeans kmeans(clusters, sequences.size(), sequences.size(),
+				  max_iter, sequences, method, kmeansplusplus,
 				  hybrid, show_results);
 
 	kmeans.run();
-
-	return 0;
 }

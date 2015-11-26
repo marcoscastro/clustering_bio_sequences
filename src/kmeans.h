@@ -245,9 +245,8 @@ public:
 	{
 		if(total_clusters > total_points)
 		{
-			std::cout << "Error: total clusters is the bigger than \
-								total of points!\n";
-			return;
+			std::cerr << "\nError: total clusters is bigger than total of data points!\n";
+			exit(1);
 		}
 
 		if(!kmeansplusplus)

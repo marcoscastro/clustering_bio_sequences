@@ -32,7 +32,7 @@ public:
 		std::string s, alfabeth("ACTG");
 
 		for(int i = 0; i < size_s; i++)
-			s.push_back(alfabeth[rand() % 3]);
+			s.push_back(alfabeth[rand() % 4]);
 		return s;
 	}
 };

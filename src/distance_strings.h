@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <math.h>
+#include <set>
 #include "common.h"
 
 /*
@@ -83,40 +84,44 @@ double needlemanWunsch(std::string & s1, std::string & s2, double match = 1,
 }
 
 /*
-	White Similarity
+	White Similarity (similarity ranking)
 	reference: http://www.catalysoft.com/articles/StrikeAMatch.html
+	is the same Dice's Coefficient
 */
 
 double whiteSimilarity(std::string & s1, std::string & s2)
 {
-	if(s1 == s2)
-		return 1;
+	std::set<std::string> s1_bigrams;
+	std::set<std::string> s2_bigrams;
 
 	int size_s1 = s1.size(), size_s2 = s2.size();
 
-	if(size_s1 < 2 || size_s2 < 2)
+	// base case
+	if(size_s1 == 0 || size_s2 == 0)
 		return 0;
+	else if(s1 == s2)
+		return 100;
 
-	double hits = 0;
-	int i = 0, j = 0;
-	std::string pair_s1, pair_s2;
+	// extract character bigrams from s1
+	for(int i = 0; i < (size_s1 - 1); i++)
+		s1_bigrams.insert(s1.substr(i, 2));
 
-	size_s1--;
-	size_s2--;
+	// extract character bigrams from s2
+	for(int i = 0; i < (size_s2 - 1); i++)
+		s2_bigrams.insert(s2.substr(i, 2));
 
-	while(i < size_s1 && j < size_s2)
-	{
-		pair_s1 = s1.substr(i, 2);
-		pair_s2 = s2.substr(j, 2);
+	int intersection = 0;
 
-		if(pair_s1 == pair_s2)
-			hits += 2;
+	// find the intersection between the two sets
 
-		i++;
-		j++;
-	}
+	std::set<std::string>::iterator it;
 
-	return ((hits / (size_s1 + size_s2)) * 100);
+	for(it = s2_bigrams.begin(); it != s2_bigrams.end(); it++)
+		intersection += s1_bigrams.count((*it));
+
+	int total = s1_bigrams.size() + s2_bigrams.size();
+
+	return (((intersection * 2.0) / total) * 100);
 }
 
 

@@ -15,12 +15,16 @@ public:
 		testLevenshteinDistance1();
 		testLevenshteinDistance2();
 		testLevenshteinDistance3();
+
 		testNeedlemanWunsch1();
 		testNeedlemanWunsch2();
+
 		testEuclideanDistance();
-		testSequenceGenerator();
 		testFastaFile();
 		testDoubleEquals();
+
+		testWhiteSimilarity1();
+		testWhiteSimilarity2();
 	}
 
 	bool testLevenshteinDistance1()
@@ -73,7 +77,7 @@ public:
 
 	bool testNeedlemanWunsch1()
 	{
-		std::string s1("GCATGCU"), s2("GATTACA");
+		std::string s1("AAAA"), s2("CCCC");
 		int expected = 0;
 		int result = needlemanWunsch(s1, s2);
 
@@ -128,19 +132,6 @@ public:
 		return false;
 	}
 
-	void testSequenceGenerator()
-	{
-		SequenceGenerator gen;
-		std::vector<std::string> sequences;
-
-		gen.generateSequences(sequences, 2, 1000, 10000);
-		std::string s1(sequences[0]), s2(sequences[1]);
-
-		std::cout << "\nRunning testSequenceGenerator...\n";
-		std::cout << "Score: " << needlemanWunsch(s1, s2) << "\n";
-		std::cout << "Finished testSequenceGenerator!\n";
-	}
-
 	void testFastaFile()
 	{
 		FastaFile fasta_file("test.fasta");
@@ -148,14 +139,53 @@ public:
 		fasta_file.showSequences();
 	}
 
-	void testDoubleEquals()
+	bool testDoubleEquals()
 	{
 		double x = 0.333333, y = 0;
 
 		if(almost_equals(x, y) == false)
+		{
 			std::cout << "Success in the test: testDoubleEquals\n";
-		else
-			std::cout << "Fail in the test: testDoubleEquals\n";
+			return true;
+		}
+
+		std::cout << "Fail in the test: testDoubleEquals\n";
+		return false;
+	}
+
+	bool testWhiteSimilarity1()
+	{
+		std::string s1("FRANCE"), s2("FRENCH");
+
+		double expected = 40;
+		double result = whiteSimilarity(s1, s2);
+
+		if(almost_equals(result, expected))
+		{
+			std::cout << "Success in the test: testWhiteSimilarity1\n";
+			return true;
+		}
+
+		std::cout << "Fail in the test: testWhiteSimilarity1\n";
+		return false;
+	}
+
+	bool testWhiteSimilarity2()
+	{
+		std::string s1("ACTG"), s2("GTCA");
+		double expected = 0;
+		double result = whiteSimilarity(s1, s2);
+		
+		std::cout << "similarity: " << result << "\n";
+		
+		if(almost_equals(result, expected))
+		{
+			std::cout << "Success in the test: testWhiteSimilarity2\n";
+			return true;
+		}
+
+		std::cout << "Fail in the test: testWhiteSimilarity2\n";
+		return false;
 	}
 };
 

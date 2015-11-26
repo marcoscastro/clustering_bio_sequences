@@ -1,4 +1,4 @@
-// read a fila in FASTA format
+// read FASTA file format
 
 #include <fstream>
 #include <map>
