@@ -89,7 +89,7 @@ double needlemanWunsch(std::string & s1, std::string & s2, double match = 1,
 	is the same Dice's Coefficient
 */
 
-double whiteSimilarity(std::string & s1, std::string & s2)
+double whiteSimilarity(std::string & s1, std::string & s2, int window = 5)
 {
 	std::set<std::string> s1_bigrams;
 	std::set<std::string> s2_bigrams;
@@ -101,14 +101,28 @@ double whiteSimilarity(std::string & s1, std::string & s2)
 		return 0;
 	else if(s1 == s2)
 		return 100;
+	
+	std::string sub_str;
 
 	// extract character bigrams from s1
 	for(int i = 0; i < (size_s1 - 1); i++)
-		s1_bigrams.insert(s1.substr(i, 2));
+	{
+		sub_str = s1.substr(i, window);
+		if(sub_str.size() == (unsigned)window)
+			s1_bigrams.insert(sub_str);
+		else
+			break;
+	}
 
 	// extract character bigrams from s2
 	for(int i = 0; i < (size_s2 - 1); i++)
-		s2_bigrams.insert(s2.substr(i, 2));
+	{
+		sub_str = s2.substr(i, window);
+		if(sub_str.size() == (unsigned)window)
+			s2_bigrams.insert(sub_str);
+		else
+			break;
+	}
 
 	int intersection = 0;
 

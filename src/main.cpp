@@ -32,7 +32,7 @@ void run_algorithm()
 	
 	int amount_sequences = 50;
 
-	gen.generateSequences(sequences, amount_sequences, 45, 50);
+	gen.generateSequences(sequences, amount_sequences, 100, 10000);
 
 	/*
 		Parameters in order:

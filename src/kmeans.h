@@ -131,6 +131,7 @@ private:
 	std::vector<Point> points;
 	std::vector<std::string> sequences;
 	bool kmeansplusplus, show_results, hybrid;
+	std::string method;
 
 private:
 
@@ -233,6 +234,7 @@ public:
 		this->total_attributes = total_attributes;
 		this->max_iterations = max_iterations;
 		this->sequences = sequences;
+		this->method = method;
 
 		generatesPoints(method);
 
@@ -369,6 +371,14 @@ public:
 					}
 				}
 
+				// window problem: very similar strings with WS method
+				if(id_ticket == 1 && method == "WS")
+				{
+					std::cerr << "\nError in kmeans++ with WS method.\n";
+					std::cerr << "Try to change the optional parameter \"window\" in the whiteSimilarity function.\n";
+					exit(1);
+				}
+
 				int choosen_ticket = rand() % (id_ticket - 1) + 1;
 
 				std::map<int, std::vector<int> >::iterator it;
@@ -418,19 +428,19 @@ public:
 			}
 
 			/*
-				hybrid clustering method based two techniques
-				(harmonic mean and arithmetic mean) for
-				recalculating the center of each cluster
+			hybrid clustering method based two techniques
+			(harmonic mean and arithmetic mean) for
+			recalculating the center of each cluster
 			*/
 
 			if(hybrid && (iter % 2 == 0))
 			{
 				/*
-					recompute centers using harmonic mean
+				recompute centers using harmonic mean
 
-					harmonic mean inflates result for negative numbers
-					because decrease the denominator, therefore harmonic
-					mean makes absolutely no sense for negative numbers
+				harmonic mean inflates result for negative numbers
+				because decrease the denominator, therefore harmonic
+				mean makes absolutely no sense for negative numbers
 				*/
 
 				for(int i = 0; i < total_clusters; i++)
