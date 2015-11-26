@@ -29,11 +29,12 @@ int main(int argc, char *argv[])
 			5) sequences
 			6) method for convert to a data point
 			7) uses kmeans++ ?
-			8) show results ?
+			8) uses hybrid (mean function + harmonic mean) ?
+			9) show results ?
 	*/
 
 	KMeans kmeans(5, sequences.size(), sequences.size(),
-				  100, sequences, "NW", true, true);
+				  100, sequences, "WS", true, true, true);
 
 	kmeans.run();
 

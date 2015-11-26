@@ -130,7 +130,7 @@ private:
 	std::vector<Cluster> clusters;
 	std::vector<Point> points;
 	std::vector<std::string> sequences;
-	bool kmeansplusplus, show_results;
+	bool kmeansplusplus, show_results, hybrid;
 
 private:
 
@@ -216,7 +216,7 @@ public:
 	KMeans(int total_clusters, int total_points, int total_attributes,
 		   int max_iterations, std::vector<std::string> & sequences,
 		   std::string method = "NW", bool kmeansplusplus = false,
-		   bool show_results = true)
+		   bool hybrid = false, bool show_results = true)
 	{
 		this->total_clusters = total_clusters;
 		this->total_points = total_points;
@@ -227,6 +227,7 @@ public:
 		generatesPoints(method);
 
 		this->kmeansplusplus = kmeansplusplus;
+		this->hybrid = hybrid;
 		this->show_results = show_results;
 	}
 
@@ -413,7 +414,7 @@ public:
 				recalculating the center of each cluster
 			*/
 
-			if(iter % 2 == 0)
+			if(hybrid && (iter % 2 == 0))
 			{
 				/*
 					recompute centers using harmonic mean
