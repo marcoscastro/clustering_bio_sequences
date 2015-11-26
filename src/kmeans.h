@@ -371,7 +371,10 @@ public:
 					}
 				}
 
-				// window problem: very similar strings with WS method
+				/*
+					problem kmeans++ with WS method:
+					parameter window: very similar strings
+				*/
 				if(id_ticket == 1 && method == "WS")
 				{
 					std::cerr << "\nError in kmeans++ with WS method.\n";
