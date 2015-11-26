@@ -82,5 +82,42 @@ double needlemanWunsch(std::string & s1, std::string & s2, double match = 1,
 	return mat[size_s1][size_s2];
 }
 
+/*
+	White Similarity
+	reference: http://www.catalysoft.com/articles/StrikeAMatch.html
+*/
+
+double whiteSimilarity(std::string & s1, std::string & s2)
+{
+	if(s1 == s2)
+		return 1;
+
+	int size_s1 = s1.size(), size_s2 = s2.size();
+
+	if(size_s1 < 2 || size_s2 < 2)
+		return 0;
+
+	double hits = 0;
+	int i = 0, j = 0;
+	std::string pair_s1, pair_s2;
+
+	size_s1--;
+	size_s2--;
+
+	while(i < size_s1 && j < size_s2)
+	{
+		pair_s1 = s1.substr(i, 2);
+		pair_s2 = s2.substr(j, 2);
+
+		if(pair_s1 == pair_s2)
+			hits += 2;
+
+		i++;
+		j++;
+	}
+
+	return ((hits / (size_s1 + size_s2)) * 100);
+}
+
 
 #endif

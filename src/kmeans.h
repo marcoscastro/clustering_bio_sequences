@@ -134,26 +134,42 @@ private:
 
 private:
 
-	void generatesPointsWithNW()
+	void generatesPoints(std::string & method)
 	{
 		// calculates distances between all sequences
 
-		for(int i = 0; i < total_points; i++)
+		if(method == "NW")
 		{
-			std::vector<double> values;
+			for(int i = 0; i < total_points; i++)
+			{
+				std::vector<double> values;
 
-			for(int j = 0; j < total_attributes; j++)
-				values.push_back(needlemanWunsch(sequences[i], sequences[j]));
+				for(int j = 0; j < total_attributes; j++)
+					values.push_back(needlemanWunsch(sequences[i], sequences[j]));
 
-			Point point(i, values, sequences[i]);
-			points.push_back(point);
+				Point point(i, values, sequences[i]);
+				points.push_back(point);
+			}
+		}
+		else if(method == "WS")
+		{
+			for(int i = 0; i < total_points; i++)
+			{
+				std::vector<double> values;
+
+				for(int j = 0; j < total_attributes; j++)
+					values.push_back(whiteSimilarity(sequences[i], sequences[j]));
+
+				Point point(i, values, sequences[i]);
+				points.push_back(point);
+			}
 		}
 	}
 
 	// return ID of nearest center (uses euclidean distance)
 	int getIDNearestCenter(Point & point)
 	{
-		double sum = 0.0, min_dist, dist;
+		double sum = 0, min_dist, dist;
 		int id_cluster_center = 0;
 
 		for(int i = 0; i < total_attributes; i++)
@@ -208,8 +224,7 @@ public:
 		this->max_iterations = max_iterations;
 		this->sequences = sequences;
 
-		if(method == "NW")
-			generatesPointsWithNW();
+		generatesPoints(method);
 
 		this->kmeansplusplus = kmeansplusplus;
 		this->show_results = show_results;
@@ -373,8 +388,6 @@ public:
 
 		while(true)
 		{
-			//showClusters();
-
 			bool done = true;
 
 			// associates each point to the nearest center
@@ -422,11 +435,11 @@ public:
 							for(int p = 0; p < total_points_cluster; p++)
 							{
 
-								if((double_equals(clusters[i].getPoint(p).getValue(j), 0)) == false)
+								if((almost_equals(clusters[i].getPoint(p).getValue(j), 0)) == false)
 									sum += 1.0 / clusters[i].getPoint(p).getValue(j);
 							}
 
-							clusters[i].setCentralValue(j, ((double_equals(sum, 0) == true) ? 0 :
+							clusters[i].setCentralValue(j, ((almost_equals(sum, 0) == true) ? 0 :
 															total_points_cluster / sum));
 						}
 					}
