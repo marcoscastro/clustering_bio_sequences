@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <math.h>
+#include "common.h"
 
 /*
 	Levenshtein distance: string metric for

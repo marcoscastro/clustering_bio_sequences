@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	Tests tests;
 	tests.runAllTests();
 	*/
-	
+
 	SequenceGenerator gen;
 	std::vector<std::string> sequences;
 

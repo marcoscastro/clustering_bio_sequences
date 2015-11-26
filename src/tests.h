@@ -147,11 +147,11 @@ public:
 
 		fasta_file.showSequences();
 	}
-	
+
 	void testDoubleEquals()
 	{
 		double x = 0.333333, y = 0;
-		
+
 		if(double_equals(x, y) == false)
 			std::cout << "Success in the test: testDoubleEquals\n";
 		else
