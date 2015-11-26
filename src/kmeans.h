@@ -431,19 +431,19 @@ public:
 			}
 
 			/*
-			hybrid clustering method based two techniques
-			(harmonic mean and arithmetic mean) for
-			recalculating the center of each cluster
+				hybrid clustering method based two techniques
+				(harmonic mean and arithmetic mean) for
+				recalculating the center of each cluster
 			*/
 
 			if(hybrid && (iter % 2 == 0))
 			{
 				/*
-				recompute centers using harmonic mean
-
-				harmonic mean inflates result for negative numbers
-				because decrease the denominator, therefore harmonic
-				mean makes absolutely no sense for negative numbers
+					recompute centers using harmonic mean
+	
+					harmonic mean inflates result for negative numbers
+					because decrease the denominator, therefore harmonic
+					mean makes absolutely no sense for negative numbers
 				*/
 
 				for(int i = 0; i < total_clusters; i++)
