@@ -104,7 +104,7 @@ double whiteSimilarity(std::string & s1, std::string & s2, int window = 5)
 	
 	std::string sub_str;
 
-	// extract character bigrams from s1
+	// extract characters of length "window" from s1
 	for(int i = 0; i < (size_s1 - 1); i++)
 	{
 		sub_str = s1.substr(i, window);
@@ -114,7 +114,7 @@ double whiteSimilarity(std::string & s1, std::string & s2, int window = 5)
 			break;
 	}
 
-	// extract character bigrams from s2
+	// extract characters of length "window" from s2
 	for(int i = 0; i < (size_s2 - 1); i++)
 	{
 		sub_str = s2.substr(i, window);
