@@ -1,9 +1,6 @@
 # python files
 *.pyc
 
-# fasta files
-*.fasta
-
 # project file
 *.fpj
 
