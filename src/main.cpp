@@ -41,9 +41,9 @@ void run_algorithm()
 	SequenceGenerator gen;
 	std::vector<std::string> sequences;
 
-	int amount_sequences = 50;
+	int amount_sequences = 100;
 
-	gen.generateSequences(sequences, amount_sequences, 500, 1000);
+	gen.generateSequences(sequences, amount_sequences, 1000, 5000);
 
 	/*
 		Parameters in order:
@@ -60,7 +60,7 @@ void run_algorithm()
 
 	int clusters = sqrt(sequences.size() / 2);
 	int max_iter = 1000;
-	string method("LCS");
+	string method("WS");
 	bool kmeansplusplus = true;
 	bool hybrid = true;
 	bool show_results = true;
