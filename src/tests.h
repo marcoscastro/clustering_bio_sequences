@@ -23,6 +23,8 @@ public:
 
 		testWhiteSimilarity1();
 		testWhiteSimilarity2();
+		
+		testLcsDistance();
 	}
 
 	bool testLevenshteinDistance1()
@@ -77,7 +79,7 @@ public:
 	{
 		std::string s1("AAAA"), s2("CCCC");
 		int expected = 0;
-		int result = needlemanWunsch(s1, s2);
+		int result = nwDistance(s1, s2);
 
 		if(almost_equals(result, expected))
 		{
@@ -93,7 +95,7 @@ public:
 	{
 		std::string s1("GAATTCAGTTA"), s2("GGATCGA");
 		int expected = 6;
-		int result = needlemanWunsch(s1, s2, 1, 0, 0);
+		int result = nwDistance(s1, s2, 1, 0, 0);
 
 		if(almost_equals(result, expected))
 		{
@@ -149,7 +151,7 @@ public:
 		std::string s1("FRANCE"), s2("FRENCH");
 
 		double expected = 40;
-		double result = whiteSimilarity(s1, s2, 2);
+		double result = wsDistance(s1, s2, 2);
 
 		if(almost_equals(result, expected))
 		{
@@ -165,7 +167,7 @@ public:
 	{
 		std::string s1("ACTG"), s2("GTCA");
 		double expected = 0;
-		double result = whiteSimilarity(s1, s2, 2);
+		double result = wsDistance(s1, s2, 2);
 
 		if(almost_equals(result, expected))
 		{
@@ -174,6 +176,23 @@ public:
 		}
 
 		std::cout << "Fail in the test: testWhiteSimilarity2\n";
+		return false;
+	}
+	
+	bool testLcsDistance()
+	{
+		std::string s1("AGCAT"), s2("GAC");
+		
+		double expected = 4;
+		double result = lcsDistance(s1, s2);
+		
+		if(almost_equals(result, expected))
+		{
+			std::cout << "Success in the test: testLcsDistance\n";
+			return true;
+		}
+
+		std::cout << "Fail in the test: testLcsDistance\n";
 		return false;
 	}
 };

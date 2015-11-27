@@ -1,12 +1,12 @@
 #ifndef _DISTANCE_STRINGS_H_
 #define _DISTANCE_STRINGS_H_
 
+// This header implement differents string similarity and distance measures
+
 #include <algorithm>
 #include <vector>
-#include <string>
 #include <math.h>
 #include <set>
-#include <map>
 #include "common.h"
 
 /*
@@ -60,8 +60,8 @@ int levenshteinDistance(std::string & s1, std::string & s2)
 	Return:
 		score of the alignment
 */
-double needlemanWunsch(std::string & s1, std::string & s2, double match = 1,
-					   double mismatch = 0, double gap = 0)
+double nwDistance(std::string & s1, std::string & s2, double match = 1,
+				  double mismatch = 0, double gap = 0)
 {
 	int size_s1 = s1.size(), size_s2 = s2.size();
 	std::vector<std::vector<double> > mat(size_s1 + 1,
@@ -94,7 +94,7 @@ double needlemanWunsch(std::string & s1, std::string & s2, double match = 1,
 	the search speed and limit the number of matches
 */
 
-double whiteSimilarity(std::string & s1, std::string & s2, int word_size = 5)
+double wsDistance(std::string & s1, std::string & s2, int word_size = 5)
 {
 	std::set<std::string> s1_bigrams;
 	std::set<std::string> s2_bigrams;
@@ -141,6 +141,36 @@ double whiteSimilarity(std::string & s1, std::string & s2, int word_size = 5)
 	int total = s1_bigrams.size() + s2_bigrams.size();
 
 	return (((intersection * 2.0) / total) * 100);
+}
+
+/*
+	LCS - longest common subsequence
+
+	Consists in finding the longest subsequence common to two sequences
+	The LCS distance between strings s1 (of length n) and s2 (of length m)
+	is n + m - 2|LCS(s1,s2)|
+
+	Uses dynamic programming approach.
+
+	Complexity: O(m.n) - space and cost
+*/
+double lcsDistance(std::string & s1, std::string & s2)
+{
+	int len_s1 = s1.size(), len_s2 = s2.size();
+	std::vector<std::vector<int> > table(len_s1 + 1, std::vector<int>(len_s2 + 1));
+
+	for(int i = 1; i <= len_s1; i++)
+	{
+		for(int j = 1; j <= len_s2; j++)
+		{
+			if(s1[i - 1] == s2[j - 1])
+				table[i][j] = table[i - 1][j - 1] + 1;
+			else
+				table[i][j] = std::max(table[i][j - 1], table[i - 1][j]);
+		}
+	}
+
+	return (len_s1 + len_s2 - 2.0 * (table[len_s1][len_s2]));
 }
 
 #endif

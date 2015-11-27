@@ -144,6 +144,7 @@ private:
 
 		methods["NW"] = 1;
 		methods["WS"] = 2;
+		methods["LCS"] = 3;
 
 		int value_method = methods[method];
 
@@ -163,10 +164,13 @@ private:
 
 						if(value_method == 1)
 							// use needleman-wunsch (global alignment)
-							result = needlemanWunsch(sequences[i], sequences[j]);
+							result = nwDistance(sequences[i], sequences[j]);
 						else if(value_method == 2)
 							// use simon white similarity
-							result = whiteSimilarity(sequences[i], sequences[j]);
+							result = wsDistance(sequences[i], sequences[j]);
+						else if(value_method == 3)
+							// use LCS (longest common subsequence)
+							result = lcsDistance(sequences[i], sequences[j]);
 
 						values.push_back(result);
 
@@ -185,6 +189,7 @@ private:
 			std::cerr << "\nAvailable methods:\n\n";
 			std::cerr << "\tNW - needleman-wunsch (global alignment)\n";
 			std::cerr << "\tWS - white similarity (similarity ranking)\n";
+			std::cerr << "\tLCS - longest common subsequence\n";
 			exit(1);
 		}
 	}
