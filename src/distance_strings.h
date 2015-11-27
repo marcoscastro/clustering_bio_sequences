@@ -101,7 +101,7 @@ double whiteSimilarity(std::string & s1, std::string & s2, int window = 5)
 		return 0;
 	else if(s1 == s2)
 		return 100;
-	
+
 	std::string sub_str;
 
 	// extract characters of length "window" from s1
@@ -136,6 +136,100 @@ double whiteSimilarity(std::string & s1, std::string & s2, int window = 5)
 	int total = s1_bigrams.size() + s2_bigrams.size();
 
 	return (((intersection * 2.0) / total) * 100);
+}
+
+/*
+	Similarity based on KMP (Knuth-Morris-Pratt) algorithm.
+
+	reference (in portuguese):
+		http://pt.slideshare.net/mcastrosouza/algoritmo-de-knuthmorrispratt-kmp
+*/
+double kmp(std::string & s1, std::string & s2, int window = 5)
+{
+	double score = 0;
+
+	// base case
+	if(s1 == "" || s2 == "")
+		return score;
+
+	int size_s1 = s1.size(), size_s2 = s2.size();
+	
+	if(size_s1 < window)
+		return 0;
+	
+	std::vector<std::string> words;
+	std::string sub_str;
+
+	// extract words of the s1
+	for(int i = 0; i < (size_s1 - 1); i++)
+	{
+		sub_str = s1.substr(i, window);
+		if(sub_str.size() == (unsigned)window)
+			words.push_back(sub_str);
+		else
+			break;
+	}
+
+	int size_words = words.size();
+
+	// for each pattern (word)
+	for(int k = 0; k < size_words; k++)
+	{
+		// compute auxiliary vector (largest prefix that is also suffix)
+		std::vector<int> aux(window);
+
+		aux[0] = 0;
+		int j = 0, i = 1;
+
+		while(i < window)
+		{
+			if(words[k][i] == words[k][j])
+			{
+				j++;
+				aux[i] = j;
+				i++;
+			}
+			else
+			{
+				if(j)
+					j = aux[j - 1];
+				else
+				{
+					aux[i] = 0;
+					i++;
+				}
+			}
+		}
+
+		int idx_text = 0, idx_pattern = 0;
+
+		// searches the pattern in the text
+		while(idx_text < size_s2)
+		{
+			if(words[k][idx_pattern] == s2[idx_text])
+			{
+				idx_pattern++;
+				idx_text++;
+			}
+
+			if(idx_pattern == window)
+			{
+				score++;
+				idx_pattern = aux[idx_pattern - 1];
+			}
+
+			if(idx_text < size_s2 &&
+					words[k][idx_pattern] != s2[idx_text])
+			{
+				if(idx_pattern)
+					idx_pattern = aux[idx_pattern - 1];
+				else
+					idx_text++;
+			}
+		}
+	}
+
+	return score;
 }
 
 

@@ -25,6 +25,8 @@ public:
 
 		testWhiteSimilarity1();
 		testWhiteSimilarity2();
+		
+		testKMP1();
 	}
 
 	bool testLevenshteinDistance1()
@@ -158,7 +160,7 @@ public:
 		std::string s1("FRANCE"), s2("FRENCH");
 
 		double expected = 40;
-		double result = whiteSimilarity(s1, s2);
+		double result = whiteSimilarity(s1, s2, 2);
 
 		if(almost_equals(result, expected))
 		{
@@ -174,9 +176,7 @@ public:
 	{
 		std::string s1("ACTG"), s2("GTCA");
 		double expected = 0;
-		double result = whiteSimilarity(s1, s2);
-		
-		std::cout << "similarity: " << result << "\n";
+		double result = whiteSimilarity(s1, s2, 2);
 		
 		if(almost_equals(result, expected))
 		{
@@ -185,6 +185,20 @@ public:
 		}
 
 		std::cout << "Fail in the test: testWhiteSimilarity2\n";
+		return false;
+	}
+	
+	bool testKMP1()
+	{
+		std::string s1("AAAAAAAAA"), s2("CCCCCCCCC");
+		
+		if(almost_equals(kmp(s1, s2), 0))
+		{
+			std::cout << "Success in the test: testKMP1\n";
+			return true;
+		}
+
+		std::cout << "Fail in the test: testKMP1\n";
 		return false;
 	}
 };

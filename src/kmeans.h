@@ -167,6 +167,20 @@ private:
 				points.push_back(point);
 			}
 		}
+		// use KMP
+		else if(method == "KMP")
+		{
+			for(int i = 0; i < total_points; i++)
+			{
+				std::vector<double> values;
+
+				for(int j = 0; j < total_attributes; j++)
+					values.push_back(kmp(sequences[i], sequences[j]));
+
+				Point point(i, values, sequences[i]);
+				points.push_back(point);
+			}
+		}
 		else
 		{
 			std::cerr << "\nError: method \"" << method << "\" not found.\n";
@@ -440,7 +454,7 @@ public:
 			{
 				/*
 					recompute centers using harmonic mean
-	
+
 					harmonic mean inflates result for negative numbers
 					because decrease the denominator, therefore harmonic
 					mean makes absolutely no sense for negative numbers

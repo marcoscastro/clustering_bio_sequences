@@ -14,7 +14,15 @@ int main(int argc, char *argv[])
 	srand(time(NULL));
 
 	//run_tests();
+
+	clock_t begin = clock();
+
 	run_algorithm();
+
+	clock_t end = clock();
+	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+
+	std::cout << "\nTime: " << elapsed_secs << " seconds.\n";
 
 	return 0;
 }
@@ -29,10 +37,10 @@ void run_algorithm()
 {
 	SequenceGenerator gen;
 	std::vector<std::string> sequences;
-	
+
 	int amount_sequences = 50;
 
-	gen.generateSequences(sequences, amount_sequences, 100, 200);
+	gen.generateSequences(sequences, amount_sequences, 1500, 2500);
 
 	/*
 		Parameters in order:
@@ -49,10 +57,12 @@ void run_algorithm()
 
 	int clusters = 5;
 	int max_iter = 100;
-	string method("WS");
+	string method("KMP");
 	bool kmeansplusplus = true;
 	bool hybrid = true;
 	bool show_results = true;
+
+	;
 
 	KMeans kmeans(clusters, sequences.size(), sequences.size(),
 				  max_iter, sequences, method, kmeansplusplus,
