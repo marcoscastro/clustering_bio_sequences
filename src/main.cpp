@@ -4,6 +4,7 @@
 #include <math.h>
 #include "tests.h"
 #include "kmeans.h"
+#define RUN_TESTS 1
 
 using namespace std;
 
@@ -12,13 +13,14 @@ void run_algorithm();
 
 int main(int argc, char *argv[])
 {
-	srand(time(NULL));
-
-	//run_tests();
-
 	clock_t begin = clock();
 
-	run_algorithm();
+	srand(time(NULL));
+
+	if(RUN_TESTS)
+		run_tests();
+	else
+		run_algorithm();
 
 	clock_t end = clock();
 	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
@@ -41,7 +43,7 @@ void run_algorithm()
 
 	int amount_sequences = 50;
 
-	gen.generateSequences(sequences, amount_sequences, 1000, 1500);
+	gen.generateSequences(sequences, amount_sequences, 500, 1000);
 
 	/*
 		Parameters in order:
@@ -57,8 +59,8 @@ void run_algorithm()
 	*/
 
 	int clusters = sqrt(sequences.size() / 2);
-	int max_iter = 100;
-	string method("KMP");
+	int max_iter = 1000;
+	string method("NW");
 	bool kmeansplusplus = true;
 	bool hybrid = true;
 	bool show_results = true;

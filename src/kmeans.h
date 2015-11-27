@@ -139,43 +139,41 @@ private:
 	{
 		// calculates distances between all sequences
 
-		// use needleman-wunsch (global alignment)
-		if(method == "NW")
+		std::map<std::pair<int, int>, double> table;
+		std::map<std::string, int> methods;
+
+		methods["NW"] = 1;
+		methods["WS"] = 2;
+
+		int value_method = methods[method];
+
+		if(value_method != 0)
 		{
 			for(int i = 0; i < total_points; i++)
 			{
 				std::vector<double> values;
 
 				for(int j = 0; j < total_attributes; j++)
-					values.push_back(needlemanWunsch(sequences[i], sequences[j]));
+				{
+					if(i > j) // checks has been calculated
+						values.push_back(table[std::make_pair(j, i)]);
+					else
+					{
+						double result;
 
-				Point point(i, values, sequences[i]);
-				points.push_back(point);
-			}
-		}
-		// use simon white similarity
-		else if(method == "WS")
-		{
-			for(int i = 0; i < total_points; i++)
-			{
-				std::vector<double> values;
+						if(value_method == 1)
+							// use needleman-wunsch (global alignment)
+							result = needlemanWunsch(sequences[i], sequences[j]);
+						else if(value_method == 2)
+							// use simon white similarity
+							result = whiteSimilarity(sequences[i], sequences[j]);
 
-				for(int j = 0; j < total_attributes; j++)
-					values.push_back(whiteSimilarity(sequences[i], sequences[j]));
+						values.push_back(result);
 
-				Point point(i, values, sequences[i]);
-				points.push_back(point);
-			}
-		}
-		// use KMP
-		else if(method == "KMP")
-		{
-			for(int i = 0; i < total_points; i++)
-			{
-				std::vector<double> values;
-
-				for(int j = 0; j < total_attributes; j++)
-					values.push_back(kmp(sequences[i], sequences[j]));
+						// memorization
+						table[std::make_pair(i, j)] = result;
+					}
+				}
 
 				Point point(i, values, sequences[i]);
 				points.push_back(point);
