@@ -88,9 +88,13 @@ double needlemanWunsch(std::string & s1, std::string & s2, double match = 1,
 	White Similarity (similarity ranking)
 	reference: http://www.catalysoft.com/articles/StrikeAMatch.html
 	is the same Dice's Coefficient
+
+	word_size smaller increases sensitivity
+	this word_size can be also be increased to increase
+	the search speed and limit the number of matches
 */
 
-double whiteSimilarity(std::string & s1, std::string & s2, int window = 5)
+double whiteSimilarity(std::string & s1, std::string & s2, int word_size = 5)
 {
 	std::set<std::string> s1_bigrams;
 	std::set<std::string> s2_bigrams;
@@ -105,21 +109,21 @@ double whiteSimilarity(std::string & s1, std::string & s2, int window = 5)
 
 	std::string sub_str;
 
-	// extract characters of length "window" from s1
+	// extract characters of length "word_size" from s1
 	for(int i = 0; i < (size_s1 - 1); i++)
 	{
-		sub_str = s1.substr(i, window);
-		if(sub_str.size() == (unsigned)window)
+		sub_str = s1.substr(i, word_size);
+		if(sub_str.size() == (unsigned)word_size)
 			s1_bigrams.insert(sub_str);
 		else
 			break;
 	}
 
-	// extract characters of length "window" from s2
+	// extract characters of length "word_size" from s2
 	for(int i = 0; i < (size_s2 - 1); i++)
 	{
-		sub_str = s2.substr(i, window);
-		if(sub_str.size() == (unsigned)window)
+		sub_str = s2.substr(i, word_size);
+		if(sub_str.size() == (unsigned)word_size)
 			s2_bigrams.insert(sub_str);
 		else
 			break;
@@ -144,8 +148,12 @@ double whiteSimilarity(std::string & s1, std::string & s2, int window = 5)
 
 	reference (in portuguese):
 		http://pt.slideshare.net/mcastrosouza/algoritmo-de-knuthmorrispratt-kmp
+
+	word_size smaller increases sensitivity
+	this word_size can be also be increased to increase
+	the search speed and limit the number of matches
 */
-double kmp(std::string & s1, std::string & s2, int window = 5)
+double kmp(std::string & s1, std::string & s2, int word_size = 5)
 {
 	double score = 0;
 
@@ -154,18 +162,18 @@ double kmp(std::string & s1, std::string & s2, int window = 5)
 		return score;
 
 	int size_s1 = s1.size(), size_s2 = s2.size();
-	
-	if(size_s1 < window)
+
+	if(size_s1 < word_size)
 		return 0;
-	
+
 	std::map<std::string, std::string> words;
 	std::string sub_str;
 
 	// extract words of the s1
 	for(int i = 0; i < (size_s1 - 1); i++)
 	{
-		sub_str = s1.substr(i, window);
-		if(sub_str.size() == (unsigned)window)
+		sub_str = s1.substr(i, word_size);
+		if(sub_str.size() == (unsigned)word_size)
 			words[sub_str] = sub_str;
 		else
 			break;
@@ -177,14 +185,14 @@ double kmp(std::string & s1, std::string & s2, int window = 5)
 	for(it = words.begin(); it != words.end(); it++)
 	{
 		std::string word = it->first;
-		
+
 		// compute auxiliary vector (largest prefix that is also suffix)
-		std::vector<int> aux(window);
+		std::vector<int> aux(word_size);
 
 		aux[0] = 0;
 		int j = 0, i = 1;
 
-		while(i < window)
+		while(i < word_size)
 		{
 			if(word[i] == word[j])
 			{
@@ -215,7 +223,7 @@ double kmp(std::string & s1, std::string & s2, int window = 5)
 				idx_text++;
 			}
 
-			if(idx_pattern == window)
+			if(idx_pattern == word_size)
 			{
 				score++;
 				idx_pattern = aux[idx_pattern - 1];

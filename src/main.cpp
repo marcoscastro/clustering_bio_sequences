@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include "tests.h"
 #include "kmeans.h"
 
@@ -40,7 +41,7 @@ void run_algorithm()
 
 	int amount_sequences = 50;
 
-	gen.generateSequences(sequences, amount_sequences, 1500, 2500);
+	gen.generateSequences(sequences, amount_sequences, 1000, 1500);
 
 	/*
 		Parameters in order:
@@ -55,14 +56,12 @@ void run_algorithm()
 			9) show results ?
 	*/
 
-	int clusters = 5;
+	int clusters = sqrt(sequences.size() / 2);
 	int max_iter = 100;
 	string method("KMP");
 	bool kmeansplusplus = true;
 	bool hybrid = true;
 	bool show_results = true;
-
-	;
 
 	KMeans kmeans(clusters, sequences.size(), sequences.size(),
 				  max_iter, sequences, method, kmeansplusplus,

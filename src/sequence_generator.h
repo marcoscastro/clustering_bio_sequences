@@ -27,6 +27,13 @@ public:
 		}
 	}
 
+	/*
+		Generate sequence of the alphabet {A,C,T,G}
+
+		Parameters:
+			size_s: length of the sequence
+
+	*/
 	std::string generateSequence(int size_s)
 	{
 		std::string s, alfabeth("ACTG");
