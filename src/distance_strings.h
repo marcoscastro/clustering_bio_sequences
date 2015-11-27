@@ -6,6 +6,7 @@
 #include <string>
 #include <math.h>
 #include <set>
+#include <map>
 #include "common.h"
 
 /*
@@ -157,7 +158,7 @@ double kmp(std::string & s1, std::string & s2, int window = 5)
 	if(size_s1 < window)
 		return 0;
 	
-	std::vector<std::string> words;
+	std::map<std::string, std::string> words;
 	std::string sub_str;
 
 	// extract words of the s1
@@ -165,16 +166,18 @@ double kmp(std::string & s1, std::string & s2, int window = 5)
 	{
 		sub_str = s1.substr(i, window);
 		if(sub_str.size() == (unsigned)window)
-			words.push_back(sub_str);
+			words[sub_str] = sub_str;
 		else
 			break;
 	}
 
-	int size_words = words.size();
+	std::map<std::string, std::string>::iterator it;
 
 	// for each pattern (word)
-	for(int k = 0; k < size_words; k++)
+	for(it = words.begin(); it != words.end(); it++)
 	{
+		std::string word = it->first;
+		
 		// compute auxiliary vector (largest prefix that is also suffix)
 		std::vector<int> aux(window);
 
@@ -183,7 +186,7 @@ double kmp(std::string & s1, std::string & s2, int window = 5)
 
 		while(i < window)
 		{
-			if(words[k][i] == words[k][j])
+			if(word[i] == word[j])
 			{
 				j++;
 				aux[i] = j;
@@ -206,7 +209,7 @@ double kmp(std::string & s1, std::string & s2, int window = 5)
 		// searches the pattern in the text
 		while(idx_text < size_s2)
 		{
-			if(words[k][idx_pattern] == s2[idx_text])
+			if(word[idx_pattern] == s2[idx_text])
 			{
 				idx_pattern++;
 				idx_text++;
@@ -219,7 +222,7 @@ double kmp(std::string & s1, std::string & s2, int window = 5)
 			}
 
 			if(idx_text < size_s2 &&
-					words[k][idx_pattern] != s2[idx_text])
+					word[idx_pattern] != s2[idx_text])
 			{
 				if(idx_pattern)
 					idx_pattern = aux[idx_pattern - 1];
