@@ -477,11 +477,11 @@ public:
 							for(int p = 0; p < total_points_cluster; p++)
 							{
 
-								if((almost_equals(clusters[i].getPoint(p).getValue(j), 0)) == false)
+								if((almost_equals_double(clusters[i].getPoint(p).getValue(j), 0)) == false)
 									sum += 1.0 / clusters[i].getPoint(p).getValue(j);
 							}
 
-							clusters[i].setCentralValue(j, ((almost_equals(sum, 0) == true) ? 0 :
+							clusters[i].setCentralValue(j, ((almost_equals_double(sum, 0) == true) ? 0 :
 															total_points_cluster / sum));
 						}
 					}

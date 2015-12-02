@@ -81,7 +81,7 @@ public:
 		int expected = 0;
 		int result = nwDistance(s1, s2);
 
-		if(almost_equals(result, expected))
+		if(almost_equals_double(result, expected))
 		{
 			std::cout << "Success in the test: testNeedlemanWunsch1\n";
 			return true;
@@ -97,7 +97,7 @@ public:
 		int expected = 6;
 		int result = nwDistance(s1, s2, 1, 0, 0);
 
-		if(almost_equals(result, expected))
+		if(almost_equals_double(result, expected))
 		{
 			std::cout << "Success in the test: testNeedlemanWunsch2\n";
 			return true;
@@ -122,7 +122,7 @@ public:
 		double expected = 9.74679;
 		double result = euclidean(v1, v2);
 
-		if(almost_equals(result, expected))
+		if(almost_equals_double(result, expected))
 		{
 			std::cout << "Success in the test: testEuclideanDistance\n";
 			return true;
@@ -136,7 +136,7 @@ public:
 	{
 		double x = 0.333333, y = 0;
 
-		if(almost_equals(x, y) == false)
+		if(almost_equals_double(x, y) == false)
 		{
 			std::cout << "Success in the test: testDoubleEquals\n";
 			return true;
@@ -153,7 +153,7 @@ public:
 		double expected = 40;
 		double result = wsDistance(s1, s2, 2);
 
-		if(almost_equals(result, expected))
+		if(almost_equals_double(result, expected))
 		{
 			std::cout << "Success in the test: testWhiteSimilarity1\n";
 			return true;
@@ -169,7 +169,7 @@ public:
 		double expected = 0;
 		double result = wsDistance(s1, s2, 2);
 
-		if(almost_equals(result, expected))
+		if(almost_equals_double(result, expected))
 		{
 			std::cout << "Success in the test: testWhiteSimilarity2\n";
 			return true;
@@ -186,7 +186,7 @@ public:
 		double expected = 4;
 		double result = lcsDistance(s1, s2);
 		
-		if(almost_equals(result, expected))
+		if(almost_equals_double(result, expected))
 		{
 			std::cout << "Success in the test: testLcsDistance\n";
 			return true;
