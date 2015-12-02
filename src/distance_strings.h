@@ -94,7 +94,7 @@ double nwDistance(std::string & s1, std::string & s2, double match = 1,
 	the search speed and limit the number of matches
 */
 
-double wsDistance(std::string & s1, std::string & s2, int word_size = 5)
+double wsDistance(std::string & s1, std::string & s2, int word_size = 3)
 {
 	std::set<std::string> s1_bigrams;
 	std::set<std::string> s2_bigrams;
@@ -171,6 +171,36 @@ double lcsDistance(std::string & s1, std::string & s2)
 	}
 
 	return (len_s1 + len_s2 - 2.0 * (table[len_s1][len_s2]));
+}
+
+/*
+	Hamming distance - used for strings of equal length.
+	The hamming distance is the number of positions at
+	which the corresponding symbols are different.
+	It measures the minimum number of substitutions required
+	to change one string into the other, or the minimum number
+	of errors that could have transformed one string into the other.
+*/
+double hammingDistance(std::string & s1, std::string & s2)
+{
+	double score = 0;
+	int len_s1 = s1.size(), len_s2 = s2.size();
+
+	if(len_s1 == len_s2)
+	{
+		for(int i = 0; i < len_s1; i++)
+		{
+			if(s1[i] == s2[i])
+				score += 1;
+		}
+	}
+	else
+	{
+		std::cerr << "\nHamming distance is only applicable to same size strings\n";
+		exit(1);
+	}
+
+	return score;
 }
 
 #endif

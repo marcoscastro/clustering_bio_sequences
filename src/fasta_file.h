@@ -7,7 +7,7 @@ class FastaFile
 {
 
 private:
-	std::map<std::string, std::string> sequences;
+	std::vector<std::pair<std::string, std::string> > sequences;
 
 private:
 
@@ -32,7 +32,7 @@ private:
 				{
 					if(flag_insert)
 					{
-						sequences[name] = content;
+						sequences.push_back(std::make_pair(name, content));
 						content.clear();
 						flag_insert = false;
 					}
@@ -47,7 +47,7 @@ private:
 		}
 
 		if(!content.empty())
-			sequences[name] = content;
+			sequences.push_back(std::make_pair(name, content));
 
 		return true;
 	}
@@ -63,14 +63,14 @@ public:
 	{
 		std::cout << "\nShowing sequences of the FASTA file:\n\n";
 
-		std::map<std::string, std::string>::iterator it;
+		std::vector<std::pair<std::string, std::string> >::iterator it;
 
 		for(it = sequences.begin(); it != sequences.end(); it++)
-			std::cout << it->first << "\n" << it->second << "\n\n";
+			std::cout << (*it).first << "\n" << (*it).second << "\n\n";
 	}
 
-	// return the map of the sequences
-	const std::map<std::string, std::string> & getSequences()
+	// return the sequences
+	const std::vector<std::pair<std::string, std::string> > & getSequences()
 	{
 		return sequences;
 	}

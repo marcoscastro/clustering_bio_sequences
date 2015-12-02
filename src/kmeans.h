@@ -148,12 +148,14 @@ private:
 			value_method = 2;
 		else if(method == "LCS")
 			value_method = 3;
+		else if(method == "HAMMING")
+			value_method = 4;
 
 		if(value_method != 0)
 		{
 			std::vector<double> values;
 			double result;
-			
+
 			for(int i = 0; i < total_points; i++)
 			{
 				for(int j = 0; j < total_attributes; j++)
@@ -171,6 +173,9 @@ private:
 						else if(value_method == 3)
 							// use LCS (longest common subsequence)
 							result = lcsDistance(sequences[i], sequences[j]);
+						else if(value_method == 4)
+							// use the hamming distance
+							result = hammingDistance(sequences[i], sequences[j]);
 
 						values.push_back(result);
 
@@ -181,7 +186,7 @@ private:
 
 				Point point(i, values, sequences[i]);
 				points.push_back(point);
-				
+
 				values.clear();
 			}
 		}
@@ -192,6 +197,7 @@ private:
 			std::cerr << "\tNW - needleman-wunsch (global alignment)\n";
 			std::cerr << "\tWS - white similarity (similarity ranking)\n";
 			std::cerr << "\tLCS - longest common subsequence\n";
+			std::cerr << "\tHamming - the hamming distance\n";
 			exit(1);
 		}
 	}
@@ -262,6 +268,16 @@ public:
 		this->show_results = show_results;
 	}
 
+	// get sequences of the cluster
+	void getClusterSequences(int index_cluster, std::vector<std::string> & sequences)
+	{
+		int total_points = clusters[index_cluster].getTotalPoints();
+
+		for(int i = 0; i < total_points; i++)
+			sequences.push_back(clusters[index_cluster].getPoint(i).getName());
+	}
+
+	// runs the k means algorithm
 	void run()
 	{
 		if(total_clusters > total_points)
