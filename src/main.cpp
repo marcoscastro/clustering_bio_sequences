@@ -43,7 +43,7 @@ void run_algorithm()
 
 	int amount_sequences = 100;
 
-	gen.generateSequences(sequences, amount_sequences, 1000, 5000);
+	gen.generateSequences(sequences, amount_sequences, 10, 50);
 
 	/*
 		Parameters in order:
@@ -60,7 +60,7 @@ void run_algorithm()
 
 	int clusters = sqrt(sequences.size() / 2);
 	int max_iter = 1000;
-	string method("WS");
+	string method("LCS");
 	bool kmeansplusplus = true;
 	bool hybrid = true;
 	bool show_results = true;

@@ -140,28 +140,28 @@ private:
 		// calculates distances between all sequences
 
 		std::map<std::pair<int, int>, double> table;
-		std::map<std::string, int> methods;
+		int value_method = 0;
 
-		methods["NW"] = 1;
-		methods["WS"] = 2;
-		methods["LCS"] = 3;
-
-		int value_method = methods[method];
+		if(method == "NW")
+			value_method = 1;
+		else if(method == "WS")
+			value_method = 2;
+		else if(method == "LCS")
+			value_method = 3;
 
 		if(value_method != 0)
 		{
+			std::vector<double> values;
+			double result;
+			
 			for(int i = 0; i < total_points; i++)
 			{
-				std::vector<double> values;
-
 				for(int j = 0; j < total_attributes; j++)
 				{
 					if(i > j) // checks has been calculated
 						values.push_back(table[std::make_pair(j, i)]);
 					else
 					{
-						double result;
-
 						if(value_method == 1)
 							// use needleman-wunsch (global alignment)
 							result = nwDistance(sequences[i], sequences[j]);
@@ -181,6 +181,8 @@ private:
 
 				Point point(i, values, sequences[i]);
 				points.push_back(point);
+				
+				values.clear();
 			}
 		}
 		else
@@ -367,7 +369,7 @@ public:
 				{
 					if(!points_chosen[i])
 					{
-						// transform probabilitie
+						// transforms for probability
 						probabilities[i] = (probabilities[i] / sum_probs) * 100;
 
 						/*
