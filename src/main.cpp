@@ -6,8 +6,6 @@
 #include "kmeans.h"
 #define RUN_TESTS 0
 
-using namespace std;
-
 void run_tests();
 void run_algorithm();
 
@@ -60,7 +58,7 @@ void run_algorithm()
 
 	int clusters = sqrt(sequences.size() / 2);
 	int max_iter = 1000;
-	string method("LCS");
+	std::string method("LCS");
 	bool kmeansplusplus = true;
 	bool hybrid = true;
 	bool show_results = true;
