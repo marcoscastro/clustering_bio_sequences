@@ -25,6 +25,8 @@ public:
 		testWhiteSimilarity2();
 		
 		testLcsDistance();
+		
+		testHammingDistance();
 	}
 
 	bool testLevenshteinDistance1()
@@ -193,6 +195,23 @@ public:
 		}
 
 		std::cout << "Fail in the test: testLcsDistance\n";
+		return false;
+	}
+	
+	bool testHammingDistance()
+	{
+		std::string s1("ACAGG"), s2("AGTGG");
+		
+		double expected = 3;
+		double result = hammingDistance(s1, s2);
+		
+		if(almost_equals_double(result, expected))
+		{
+			std::cout << "Success in the test: testHammingDistance\n";
+			return true;
+		}
+
+		std::cout << "Fail in the test: testHammingDistance\n";
 		return false;
 	}
 };

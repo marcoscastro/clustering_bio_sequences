@@ -2,6 +2,7 @@
 #define _KMEANS_H_
 #include <map>
 #include "distance_strings.h"
+#include "common.h"
 
 class Point
 {
@@ -492,7 +493,6 @@ public:
 						{
 							for(int p = 0; p < total_points_cluster; p++)
 							{
-
 								if((almost_equals_double(clusters[i].getPoint(p).getValue(j), 0)) == false)
 									sum += 1.0 / clusters[i].getPoint(p).getValue(j);
 							}

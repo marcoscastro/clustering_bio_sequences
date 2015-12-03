@@ -7,7 +7,6 @@
 #include <vector>
 #include <math.h>
 #include <set>
-#include "common.h"
 
 /*
 	Levenshtein distance: string metric for
@@ -191,7 +190,7 @@ double hammingDistance(std::string & s1, std::string & s2)
 		for(int i = 0; i < len_s1; i++)
 		{
 			if(s1[i] == s2[i])
-				score += 1;
+				score += 1.0;
 		}
 	}
 	else

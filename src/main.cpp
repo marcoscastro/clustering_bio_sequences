@@ -81,7 +81,7 @@ void run_algorithm()
 
 void run_test_splice_data()
 {
-	std::string dataset_name("splice.data.fasta");
+	std::string dataset_name("splice.data.600.sequences.fasta");
 
 	FastaFile ff(dataset_name);
 
@@ -184,21 +184,19 @@ void run_test_splice_data()
 		}
 	}
 
-	std::cout << "Cluster 1\n";
-	std::cout << "\nSize: " << cluster1.size() << "";
-	std::cout << "\nClass EI: " << cluster1EI << " - " << ((double)cluster1EI / cluster1.size()) * 100.0 << "\n";
-	std::cout << "Class IE: " << cluster1IE << " - " << ((double)cluster1IE / cluster1.size()) * 100.0 << "\n";
-	std::cout << "Class N: " << cluster1N << " - " << ((double)cluster1N / cluster1.size()) * 100.0 << "\n";
+	std::cout << "Cluster 1 - Size: " << cluster1.size() << "\n";
+	std::cout << "\nClass EI: " << cluster1EI << " - " << ((double)cluster1EI / cluster1.size()) * 100.0 << "%\n";
+	std::cout << "Class IE: " << cluster1IE << " - " << ((double)cluster1IE / cluster1.size()) * 100.0 << "%\n";
+	std::cout << "Class N: " << cluster1N << " - " << ((double)cluster1N / cluster1.size()) * 100.0 << "%\n";
 
-	std::cout << "\nCluster 2\n";
-	std::cout << "\nSize: " << cluster2.size() << "";
-	std::cout << "\nClass EI: " << cluster2EI << " - " << ((double)cluster2EI / cluster2.size()) * 100.0 << "\n";
-	std::cout << "Class IE: " << cluster2IE << " - " << ((double)cluster2IE / cluster2.size()) * 100.0 << "\n";
-	std::cout << "Class N: " << cluster2N << " - " << ((double)cluster2N / cluster2.size()) * 100.0 << "\n";
+	std::cout << "\nCluster 2 - Size: " << cluster2.size() << "\n";
+	std::cout << "\nClass EI: " << cluster2EI << " - " << ((double)cluster2EI / cluster2.size()) * 100.0 << "%\n";
+	std::cout << "Class IE: " << cluster2IE << " - " << ((double)cluster2IE / cluster2.size()) * 100.0 << "%\n";
+	std::cout << "Class N: " << cluster2N << " - " << ((double)cluster2N / cluster2.size()) * 100.0 << "%\n";
 
-	std::cout << "\nCluster 3\n";
+	std::cout << "\nCluster 3 - Size: " << cluster3.size() << "\n";
 	std::cout << "\nSize: " << cluster3.size() << "";
-	std::cout << "\nClass EI: " << cluster3EI << " - " << ((double)cluster3EI / cluster3.size()) * 100.0 << "\n";
-	std::cout << "Class IE: " << cluster3IE << " - " << ((double)cluster3IE / cluster3.size()) * 100.0 << "\n";
-	std::cout << "Class N: " << cluster3N << " - " << ((double)cluster3N / cluster3.size()) * 100.0 << "\n";
+	std::cout << "\nClass EI: " << cluster3EI << " - " << ((double)cluster3EI / cluster3.size()) * 100.0 << "%\n";
+	std::cout << "Class IE: " << cluster3IE << " - " << ((double)cluster3IE / cluster3.size()) * 100.0 << "%\n";
+	std::cout << "Class N: " << cluster3N << " - " << ((double)cluster3N / cluster3.size()) * 100.0 << "%\n";
 }
