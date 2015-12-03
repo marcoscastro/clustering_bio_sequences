@@ -11,14 +11,14 @@ private:
 
 private:
 
-	bool readFasta(std::string file_path)
+	void readFasta(std::string file_path)
 	{
 		std::ifstream input(file_path.c_str());
 
 		if(!input.good())
 		{
 			std::cerr << "Error opening FASTA file.\n";
-			return false;
+			exit(1);
 		}
 
 		bool flag_insert = false;
@@ -48,8 +48,6 @@ private:
 
 		if(!content.empty())
 			sequences.push_back(std::make_pair(name, content));
-
-		return true;
 	}
 
 public:
