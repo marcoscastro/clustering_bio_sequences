@@ -81,7 +81,7 @@ void run_algorithm()
 
 void run_test_splice_data()
 {
-	std::string dataset_name("splice.data.600.seqsuences.fasta");
+	std::string dataset_name("splice.data.600.sequences.fasta");
 
 	FastaFile ff(dataset_name);
 
