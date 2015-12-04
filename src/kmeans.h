@@ -278,6 +278,24 @@ public:
 			sequences.push_back(clusters[index_cluster].getPoint(i).getName());
 	}
 
+	// returns the central value of a certain cluster
+	double getCentralValue(int index_cluster, int index_central_value)
+	{
+		return clusters[index_cluster].getCentralValue(index_central_value);
+	}
+
+	// returns the value of datapoint of a certain cluster
+	double getValuePoint(int index_cluster, int index_point, int index_value)
+	{
+		return clusters[index_cluster].getPoint(index_point).getValue(index_value);
+	}
+
+	// returns the amount of datapoints of a certain cluster
+	int getSizeCluster(int index_cluster)
+	{
+		return clusters[index_cluster].getTotalPoints();
+	}
+
 	// runs the k means algorithm
 	void run()
 	{
