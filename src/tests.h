@@ -219,9 +219,9 @@ public:
 
 	bool testSmithWaterman()
 	{
-		std::string s1("ACCCTGAC"), s2("CCT");
-		double expected = 6;
-		double result = swDistance(s1, s2, 2, -1, -1);
+		std::string s1("CGAT"), s2("CGAT");
+		double expected = 4;
+		double result = swDistance(s1, s2);
 
 		if(almost_equals_double(result, expected))
 		{
