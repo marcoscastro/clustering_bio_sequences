@@ -93,7 +93,7 @@ double nwDistance(std::string & s1, std::string & s2, double match = 1,
 	the search speed and limit the number of matches
 */
 
-double wsDistance(std::string & s1, std::string & s2, int word_size = 3)
+double wsDistance(std::string & s1, std::string & s2, int word_size = 4)
 {
 	std::set<std::string> s1_bigrams;
 	std::set<std::string> s2_bigrams;
