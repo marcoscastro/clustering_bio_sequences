@@ -43,20 +43,19 @@
 
 #include <iostream>
 #include <stdlib.h>
-#include <math.h>
 #include <time.h>
 #include <koolplot.h>
-#include <map>
-#include "tests.h"
 #include "kmeans.h"
 #include "fasta_file.h"
-#define RUN_TESTS 1
-#define RUN_TEST_SPLICE_DATA 1
 
 using namespace std;
 
 int main()
 {
+	clock_t begin = clock();
+
+	srand(time(NULL));
+
 	std::string dataset_name("splice.data.600.sequences.fasta");
 	FastaFile ff(dataset_name);
 	std::vector<std::pair<std::string, std::string> > dataset;
@@ -84,4 +83,11 @@ int main()
 	KMeans kmeans(3, sequences.size(), sequences.size(),
 				  100, sequences, "HAMMING", true, false, false);
 	kmeans.run();
+
+	clock_t end = clock();
+	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+
+	std::cout << "\nTime: " << elapsed_secs << " seconds.\n";
+
+	return 0;
 }
