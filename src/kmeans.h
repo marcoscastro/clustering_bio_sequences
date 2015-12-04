@@ -151,6 +151,8 @@ private:
 			value_method = 3;
 		else if(method == "HAMMING")
 			value_method = 4;
+		else if(method == "ED")
+			value_method = 5;
 
 		if(value_method != 0)
 		{
@@ -166,17 +168,20 @@ private:
 					else
 					{
 						if(value_method == 1)
-							// use needleman-wunsch (global alignment)
+							// uses needleman-wunsch (global alignment)
 							result = nwDistance(sequences[i], sequences[j]);
 						else if(value_method == 2)
-							// use simon white similarity
+							// uses simon white similarity
 							result = wsDistance(sequences[i], sequences[j]);
 						else if(value_method == 3)
-							// use LCS (longest common subsequence)
+							// uses LCS (longest common subsequence)
 							result = lcsDistance(sequences[i], sequences[j]);
 						else if(value_method == 4)
-							// use the hamming distance
+							// uses the hamming distance
 							result = hammingDistance(sequences[i], sequences[j]);
+						else if(value_method == 5)
+							// uses edit distance
+							result = levenshteinDistance(sequences[i], sequences[j]);
 
 						values.push_back(result);
 
@@ -199,6 +204,7 @@ private:
 			std::cerr << "\tWS - white similarity (similarity ranking)\n";
 			std::cerr << "\tLCS - longest common subsequence\n";
 			std::cerr << "\tHamming - the hamming distance\n";
+			std::cerr << "\tEdit distance - Levenshtein distance\n";
 			exit(1);
 		}
 	}

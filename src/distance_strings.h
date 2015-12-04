@@ -10,8 +10,9 @@
 
 /*
 	Levenshtein distance: string metric for
-	measuring the difference between two sequences
-	Levenshtein is a measure of dissimilarity
+	measuring the difference between two sequences.
+	Levenshtein is a measure of dissimilarity.
+	Levenshtein distance may also be referred to as edit distance.
 
 	This implementation uses bottom-up dynamic programming.
 
@@ -21,11 +22,11 @@
 	Return:
 		score of dissimilarity
 */
-int levenshteinDistance(std::string & s1, std::string & s2)
+double levenshteinDistance(std::string & s1, std::string & s2)
 {
 	int size_s1 = s1.size(), size_s2 = s2.size();
-	std::vector<std::vector<unsigned int> > mat(size_s1 + 1,
-			std::vector<unsigned int>(size_s2 + 1));
+	std::vector<std::vector<double> > mat(size_s1 + 1,
+										  std::vector<double>(size_s2 + 1));
 
 	mat[0][0] = 0;
 
@@ -195,7 +196,7 @@ double hammingDistance(std::string & s1, std::string & s2)
 	}
 	else
 	{
-		std::cerr << "\nHamming distance is only applicable to same size strings\n";
+		std::cerr << "\nHamming distance is only applicable to same size strings.\n";
 		exit(1);
 	}
 
