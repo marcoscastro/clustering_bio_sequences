@@ -85,6 +85,50 @@ double nwDistance(std::string & s1, std::string & s2, double match = 1,
 }
 
 /*
+	Smith-Waterman is a algorithm for local alignment pairwise.
+	Smith-Waterman is a measure of similarity.
+	Uses dynamic programming.
+
+	Parameters:
+		match
+		mismatch
+		gap
+
+	Return:
+	   score of the alignment
+*/
+double swDistance(std::string & s1, std::string & s2, double match = 1,
+				  double mismatch = 0, double gap = 0)
+{
+	int size_s1 = s1.size(), size_s2 = s2.size();
+	std::vector<std::vector<double> > mat(size_s1 + 1,
+										  std::vector<double>(size_s2 + 1));
+
+	double max_score;
+
+	mat[0][0] = max_score = 0;
+
+	// the first line and first column are initialized with 0
+	for(int i = 1; i <= size_s1; i++)
+		mat[i][0] = mat[0][i];
+	for(int i = 1; i <= size_s2; i++)
+		mat[0][i] = mat[0][i - 1];
+
+	for(int i = 1; i <= size_s1; i++)
+	{
+		for(int j = 1; j <= size_s2; j++)
+		{
+			mat[i][j] = std::max(0.0, std::max(std::max(mat[i - 1][j] + gap, mat[i][j - 1] + gap),
+											 mat[i - 1][j - 1] + (s1[i - 1] == s2[j - 1] ? match : mismatch)));
+			if(mat[i][j] > max_score)
+				max_score = mat[i][j];
+		}
+	}
+
+	return max_score;
+}
+
+/*
 	White Similarity (similarity ranking)
 	reference: http://www.catalysoft.com/articles/StrikeAMatch.html
 	is the same Dice's Coefficient

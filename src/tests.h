@@ -27,6 +27,8 @@ public:
 		testLcsDistance();
 
 		testHammingDistance();
+
+		testSmithWaterman();
 	}
 
 	bool testLevenshteinDistance1()
@@ -212,6 +214,22 @@ public:
 		}
 
 		std::cout << "Fail in the test: testHammingDistance\n";
+		return false;
+	}
+
+	bool testSmithWaterman()
+	{
+		std::string s1("ACCCTGAC"), s2("CCT");
+		double expected = 6;
+		double result = swDistance(s1, s2, 2, -1, -1);
+
+		if(almost_equals_double(result, expected))
+		{
+			std::cout << "Success in the test: testSmithWaterman\n";
+			return true;
+		}
+
+		std::cout << "Fail in the test: testSmithWaterman\n";
 		return false;
 	}
 };

@@ -7,7 +7,7 @@
 #include "kmeans.h"
 #include "fasta_file.h"
 #define RUN_TESTS 1
-#define RUN_TEST_SPLICE_DATA 0
+#define RUN_TEST_SPLICE_DATA 1
 
 void run_tests();
 void run_algorithm();
@@ -94,7 +94,7 @@ void run_test_splice_data()
 		sequences.push_back((*it).second);
 
 	KMeans kmeans(3, sequences.size(), sequences.size(),
-				  100, sequences, "NW", true, false, false);
+				  100, sequences, "SW", true, false, false);
 	kmeans.run();
 
 	std::vector<std::string> cluster1, cluster2, cluster3;
@@ -193,7 +193,6 @@ void run_test_splice_data()
 	std::cout << "Class N: " << cluster2N << " - " << ((double)cluster2N / cluster2.size()) * 100.0 << "%\n";
 
 	std::cout << "\nCluster 3 - Size: " << cluster3.size() << "\n";
-	std::cout << "\nSize: " << cluster3.size() << "";
 	std::cout << "\nClass EI: " << cluster3EI << " - " << ((double)cluster3EI / cluster3.size()) * 100.0 << "%\n";
 	std::cout << "Class IE: " << cluster3IE << " - " << ((double)cluster3IE / cluster3.size()) * 100.0 << "%\n";
 	std::cout << "Class N: " << cluster3N << " - " << ((double)cluster3N / cluster3.size()) * 100.0 << "%\n";

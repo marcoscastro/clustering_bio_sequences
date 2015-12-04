@@ -153,6 +153,8 @@ private:
 			value_method = 4;
 		else if(method == "ED")
 			value_method = 5;
+		else if(method == "SW")
+			value_method = 6;
 
 		if(value_method != 0)
 		{
@@ -182,6 +184,9 @@ private:
 						else if(value_method == 5)
 							// uses edit distance
 							result = levenshteinDistance(sequences[i], sequences[j]);
+						else if(value_method == 6)
+							// uses smith-waterman (local alignment)
+							result = swDistance(sequences[i], sequences[j]);
 
 						values.push_back(result);
 
