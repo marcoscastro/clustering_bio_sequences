@@ -252,7 +252,7 @@ private:
 public:
 	KMeans(int total_clusters, int total_points, int total_attributes,
 		   int max_iterations, std::vector<std::string> & sequences,
-		   std::string method = "NW", bool kmeansplusplus = false,
+		   std::string method = "NW", bool kmeansplusplus = true,
 		   bool hybrid = false, bool show_results = true)
 	{
 		this->total_clusters = total_clusters;
