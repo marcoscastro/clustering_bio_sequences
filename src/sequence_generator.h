@@ -1,6 +1,10 @@
 #ifndef _SEQUENCE_GENERATOR_H_
 #define _SEQUENCE_GENERATOR_H_
 
+#include <vector>
+#include <string>
+#include <stdlib.h>
+
 class SequenceGenerator
 {
 public:
@@ -16,16 +20,7 @@ public:
 
 	*/
 	void generateSequences(std::vector<std::string> & sequences,
-						   int number_of_sequences, int low, int high)
-	{
-		int size_s;
-
-		for(int i = 0; i < number_of_sequences; i++)
-		{
-			size_s = rand() % (high - low + 1) + low;
-			sequences.push_back(generateSequence(size_s));
-		}
-	}
+						   int number_of_sequences, int low, int high);
 
 	/*
 		Generate sequence of the alphabet {A,C,T,G}
@@ -34,14 +29,7 @@ public:
 			size_s: length of the sequence
 
 	*/
-	std::string generateSequence(int size_s)
-	{
-		std::string s, alfabeth("ACTG");
-
-		for(int i = 0; i < size_s; i++)
-			s.push_back(alfabeth[rand() % 4]);
-		return s;
-	}
+	std::string generateSequence(int size_s);
 };
 
 #endif

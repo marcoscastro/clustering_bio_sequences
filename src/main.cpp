@@ -1,13 +1,14 @@
 #include <iostream>
+#include <time.h>
 #include <stdlib.h>
 #include <math.h>
-#include <time.h>
-#include <map>
-#include "tests.h"
 #include "kmeans.h"
+#include "tests.h"
 #include "fasta_file.h"
-#define RUN_TESTS 1
-#define RUN_TEST_SPLICE_DATA 1
+#include "sequence_generator.h"
+
+#define RUN_TESTS 0
+#define RUN_TEST_SPLICE_DATA 0
 
 void run_tests();
 void run_algorithm();
