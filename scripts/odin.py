@@ -5,6 +5,8 @@
 	ODIN is a kNN outlier method
 	ODIN uses kNN graph
 
+	In ODIN, the outliers are defined using k-nearest neighbour (kNN) graph
+
 	References:
 		kNN graph: https://en.wikipedia.org/wiki/Nearest_neighbor_graph
 		ODIN method: http://cs.joensuu.fi/~villeh/35400978.pdf
@@ -25,7 +27,14 @@ list_adjacency = defaultdict(list)
 def get_K_lesser_items(K, items):
 	return heapq.nsmallest(K, items)
 
-def build_knn_graph(dataset, dists, N, K):
+'''
+	dataset: set of datapoints
+	dists: euclidean distances
+	N: number of datapoints
+	K: K nearest neighbors
+	T: indegree threshold (detection outlier)
+'''
+def build_knn_graph(dataset, dists, N, K, T = 0.9):
 	
 	K_dists = []
 
@@ -41,21 +50,20 @@ def build_knn_graph(dataset, dists, N, K):
 				else:
 					dists_neighbors.append(dists[(index_point, neighbor)])
 
-		# get K smallest distances from index_point to other objects from dataset
-		K_smallest_distances = get_K_lesser_items(K, dists_neighbors)
+		# get K smallest distance from index_point to other objects from dataset
+		K_smallest_distance = get_K_lesser_items(K, dists_neighbors)[-1]
 
 		# who are K nearest neighbors?
 		for neighbor in range(N):
 			if(index_point != neighbor):
 				if(index_point > neighbor):
-					if(dists[(neighbor, index_point)] in K_smallest_distances):
+					if(dists[(neighbor, index_point)] <= K_smallest_distance):
 						list_adjacency[index_point].append(neighbor)
 				else:
-					if(dists[(index_point, neighbor)] in K_smallest_distances):
+					if(dists[(index_point, neighbor)] <= K_smallest_distance):
 						list_adjacency[index_point].append(neighbor)
 
-	# in degrees of objects
-	in_degree = {}
+	in_degree = {} # in degrees of objects
 
 	for obj in range(N):
 		in_degree[obj] = 0
@@ -68,14 +76,15 @@ def build_knn_graph(dataset, dists, N, K):
 						# adds in degree of "obj"
 						in_degree[obj] += 1
 
-	T = 0.05 # threshold
+	count_outliers = 0 # counter outliers
 
 	for i in in_degree:
-		# calculates the outlyingess of "i"
-		outlyingess = 1.0 / (in_degree[i] + 1)
-		# checks if "i" is outlier
-		if(outlyingess <= T):
-			print('%d is outlier, in degree: %d' % (i, in_degree[i]))
+		outly = 1.0 / (in_degree[i] + 1) # calculates outlyingess of "i"
+		if(outly > T): # checks if "i" is a outlier comparing "outly" with threshold "T"
+			count_outliers += 1
+			print('datapoint %d is outlier, outly: %.2f' % (i, outly))
+
+	print('\nTotal outliers: %d' % count_outliers)
 
 
 
@@ -86,17 +95,18 @@ def show_dataset(dataset):
 if __name__ == "__main__":
 	
 	N = 500 # number of the data points
-	K = 3 # number of neighbors
+	K = 3 # number of nearest neighbors
 
 	# generates N datapoints, each datapoint contains N elements
 	# the numbers of each datapoint are between 1 e N
 	dataset = [[int(N * random.random() + 1) for i in range(N)] for i in range(N)]
 
-	dists = {}
+	dists = {} # euclidean distances
 	
 	# calculates the euclidean distances between the pairs
 	for i in range(N):
 		for j in range(i + 1, N):
 			dists[(i, j)] = distance.euclidean(dataset[i], dataset[j])
 
-	build_knn_graph(dataset, dists, N, K)
+	# build kNNG (kNN graph) for detection outliers
+	build_knn_graph(dataset, dists, N, K, 0.89)
