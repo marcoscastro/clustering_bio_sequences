@@ -19,6 +19,7 @@ public:
 		testNeedlemanWunsch2();
 
 		testEuclideanDistance();
+		
 		testDoubleEquals();
 
 		testWhiteSimilarity1();
