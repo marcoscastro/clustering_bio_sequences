@@ -7,8 +7,8 @@
 #include "fasta_file.h"
 #include "sequence_generator.h"
 
-#define RUN_TESTS 0
-#define RUN_TEST_SPLICE_DATA 0
+#define RUN_TESTS 1
+#define RUN_TEST_SPLICE_DATA 1
 
 void run_tests();
 void run_algorithm();
@@ -70,7 +70,7 @@ void run_algorithm()
 	int max_iter = 1000;
 	std::string method("LCS");
 	bool kmeansplusplus = true;
-	bool hybrid = true;
+	bool hybrid = false;
 	bool show_results = true;
 
 	KMeans kmeans(clusters, sequences.size(), sequences.size(),
@@ -95,7 +95,7 @@ void run_test_splice_data()
 		sequences.push_back((*it).second);
 
 	KMeans kmeans(3, sequences.size(), sequences.size(),
-				  100, sequences, "NW", true, false, false);
+				  100, sequences, "HAMMING", true, false, false);
 	kmeans.run();
 
 	std::vector<std::string> cluster1, cluster2, cluster3;
