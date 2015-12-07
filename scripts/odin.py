@@ -24,9 +24,6 @@ from collections import defaultdict
 
 list_adjacency = defaultdict(list)
 
-def get_K_lesser_items(K, items):
-	return heapq.nsmallest(K, items)
-
 '''
 	dataset: set of datapoints
 	dists: euclidean distances
@@ -51,9 +48,9 @@ def build_knn_graph(dataset, dists, N, K, T = 0.9):
 					dists_neighbors.append(dists[(index_point, neighbor)])
 
 		# get K smallest distance from index_point to other objects from dataset
-		K_smallest_distance = get_K_lesser_items(K, dists_neighbors)[-1]
+		K_smallest_distance = heapq.nsmallest(K, dists_neighbors)[-1]
 
-		# who are K nearest neighbors?
+		# who are the K nearest neighbors?
 		for neighbor in range(N):
 			if(index_point != neighbor):
 				if(index_point > neighbor):
@@ -79,8 +76,12 @@ def build_knn_graph(dataset, dists, N, K, T = 0.9):
 	count_outliers = 0 # counter outliers
 
 	for i in in_degree:
-		outly = 1.0 / (in_degree[i] + 1) # calculates outlyingess of "i"
-		if(outly > T): # checks if "i" is a outlier comparing "outly" with threshold "T"
+
+		# calculates outlyingess of "i"
+		outly = 1.0 / (in_degree[i] + 1)
+
+		# checks if "i" is a outlier comparing "outly" with threshold "T"
+		if(outly > T):
 			count_outliers += 1
 			print('datapoint %d is outlier, outly: %.2f' % (i, outly))
 
@@ -94,8 +95,10 @@ def show_dataset(dataset):
 
 if __name__ == "__main__":
 	
-	N = 500 # number of the data points
-	K = 3 # number of nearest neighbors
+	N = 1500 # number of the data points
+	K = 11 # number of nearest neighbors
+
+	K = int(0.01 * N) # K is 1% of N
 
 	# generates N datapoints, each datapoint contains N elements
 	# the numbers of each datapoint are between 1 e N
@@ -110,3 +113,5 @@ if __name__ == "__main__":
 
 	# build kNNG (kNN graph) for detection outliers
 	build_knn_graph(dataset, dists, N, K, 0.89)
+
+	print('K: %d' % K)
