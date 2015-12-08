@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <time.h>
 
 class Point
 {
@@ -84,6 +85,9 @@ private:
 	std::vector<std::string> sequences;
 	bool kmeansplusplus, hybrid;
 	std::string method;
+	int iter;
+	clock_t t_begin, t_end;
+	double elapsed_secs;
 
 private:
 

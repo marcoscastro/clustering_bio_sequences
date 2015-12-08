@@ -216,27 +216,45 @@ int KMeans::getIDNearestCenter(Point & point)
 
 void KMeans::generateResults()
 {
+	std::string filename_report("report.txt");
+	std::ostringstream break_iter, time_elapsed;
+	std::string report_content = "";
+
+	break_iter << iter;
+	time_elapsed << elapsed_secs;
+	
+	report_content += "Break in iteration " + break_iter.str() + "\n";
+	report_content += "Time elapsed: " + time_elapsed.str() + " seconds\n";
+
 	for(unsigned int i = 0; i < clusters.size(); i++)
 	{
 		int total_points_cluster = clusters[i].getTotalPoints();
 		std::string filename = "cluster";
 		std::string content = "";
-		std::ostringstream idx_cluster;
+		std::ostringstream idx_cluster, total_points;
 
 		idx_cluster << (i + 1);
+		total_points << total_points_cluster;
 		filename += idx_cluster.str() + ".txt";
+
+		report_content += "\nCluster " + idx_cluster.str();
+		report_content += "\nAmount sequences: " + total_points.str() + "\n";
 
 		for(int j = 0; j < total_points_cluster; j++)
 			content += clusters[i].getPoint(j).getName() + "\n";
 
 		generateFile(filename, content);
 	}
+
+	generateFile(filename_report, report_content);
 }
 
 KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 			   std::vector<std::string> & sequences, int max_iterations,
 			   std::string method, bool kmeansplusplus, bool hybrid)
 {
+	t_begin = clock();
+
 	this->total_clusters = total_clusters;
 	this->total_points = total_points;
 	this->total_attributes = total_attributes;
@@ -442,7 +460,7 @@ void KMeans::run()
 		}
 	}
 
-	int iter = 1;
+	iter = 1;
 
 	while(true)
 	{
@@ -529,6 +547,10 @@ void KMeans::run()
 
 		iter++;
 	}
+
+	t_end = clock();
+
+	elapsed_secs = double(t_end - t_begin) / CLOCKS_PER_SEC;
 
 	generateResults();
 }

@@ -23,8 +23,6 @@ void run_algorithm(int clusters, std::string & fasta_file,
 
 int main(int argc, char *argv[])
 {
-	//clock_t begin = clock();
-
 	srand(time(NULL));
 
 	if(RUN_TESTS || RUN_TEST_SPLICE_DATA)
@@ -157,8 +155,6 @@ int main(int argc, char *argv[])
 				else
 					std::cout << "\nError: number of clusters is a positive integer.\n";
 			}
-
-			//run_algorithm();
 		}
 		else
 		{
@@ -171,13 +167,6 @@ int main(int argc, char *argv[])
 			std::cout << instructions;
 		}
 	}
-
-	/*
-	clock_t end = clock();
-	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-
-	std::cout << "\nTime : " << elapsed_secs << " seconds.\n";
-	*/
 
 	return 0;
 }
