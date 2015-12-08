@@ -2,10 +2,10 @@
 #include <algorithm>
 #include <map>
 #include <math.h>
+#include <sstream>
 #include "kmeans.h"
 #include "common.h"
 #include "distance_strings.h"
-
 
 Point::Point(int id_point, std::vector<double> & values, std::string & name)
 {
@@ -214,23 +214,28 @@ int KMeans::getIDNearestCenter(Point & point)
 	return id_cluster_center;
 }
 
-void KMeans::showClusters()
+void KMeans::generateResults()
 {
 	for(unsigned int i = 0; i < clusters.size(); i++)
 	{
 		int total_points_cluster = clusters[i].getTotalPoints();
+		std::string filename = "cluster";
+		std::string content = "";
+		std::ostringstream idx_cluster;
 
-		std::cout << "Cluster " << i + 1 << "\n";
+		idx_cluster << (i + 1);
+		filename += idx_cluster.str() + ".txt";
 
 		for(int j = 0; j < total_points_cluster; j++)
-			std::cout << clusters[i].getPoint(j).getName() << "\n";
-		std::cout << "\n";
+			content += clusters[i].getPoint(j).getName() + "\n";
+
+		generateFile(filename, content);
 	}
 }
 
 KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 			   std::vector<std::string> & sequences, int max_iterations,
-			   std::string method, bool kmeansplusplus, bool hybrid, bool show_results)
+			   std::string method, bool kmeansplusplus, bool hybrid)
 {
 	this->total_clusters = total_clusters;
 	this->total_points = total_points;
@@ -243,7 +248,6 @@ KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 
 	this->kmeansplusplus = kmeansplusplus;
 	this->hybrid = hybrid;
-	this->show_results = show_results;
 }
 
 // get sequences of the cluster
@@ -521,12 +525,10 @@ void KMeans::run()
 		}
 
 		if(done == true || iter >= max_iterations)
-		{
-			if(show_results)
-				showClusters();
 			break;
-		}
 
 		iter++;
 	}
+
+	generateResults();
 }

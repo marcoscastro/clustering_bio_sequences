@@ -60,3 +60,10 @@ const std::vector<std::pair<std::string, std::string> > & FastaFile::getSequence
 {
 	return sequences;
 }
+
+void FastaFile::generateFile(std::string & filename, std::string & content)
+{
+	std::ofstream out(filename.c_str());
+	out << content;
+	out.close();
+}

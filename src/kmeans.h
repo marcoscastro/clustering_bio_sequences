@@ -82,7 +82,7 @@ private:
 	std::vector<Cluster> clusters;
 	std::vector<Point> points;
 	std::vector<std::string> sequences;
-	bool kmeansplusplus, show_results, hybrid;
+	bool kmeansplusplus, hybrid;
 	std::string method;
 
 private:
@@ -93,16 +93,15 @@ private:
 	// return ID of nearest center (uses euclidean distance)
 	int getIDNearestCenter(Point & point);
 
-	// shows the all clusters
-	void showClusters();
+	// generates the results
+	void generateResults();
 
 public:
 
 	// constructor
 	KMeans(int total_clusters, int total_points, int total_attributes, 
 			std::vector<std::string> & sequences, int max_iterations = 100,
-		   std::string method = "LCS", bool kmeansplusplus = true,
-		   bool hybrid = false, bool show_results = false);
+		   std::string method = "LCS", bool kmeansplusplus = true, bool hybrid = false);
 
 	// get sequences of a certain cluster
 	void getClusterSequences(int index_cluster, std::vector<std::string> & sequences);

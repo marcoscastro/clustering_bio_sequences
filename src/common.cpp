@@ -1,4 +1,5 @@
 #include <math.h>
+#include <fstream>
 #include "common.h"
 
 bool almost_equals_double(double x, double y, double epsilon)
@@ -17,4 +18,12 @@ bool contains_number(std::string & s)
 	}
 
 	return true;
+}
+
+
+void generateFile(std::string & filename, std::string & content)
+{
+	std::ofstream out(filename.c_str());
+	out << content;
+	out.close();
 }

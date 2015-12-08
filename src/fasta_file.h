@@ -27,4 +27,7 @@ public:
 	
 	// return the sequences
 	const std::vector<std::pair<std::string, std::string> > & getSequences();
+	
+	// generate file
+	void generateFile(std::string & filename, std::string & content);
 };

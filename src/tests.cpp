@@ -219,7 +219,7 @@ void Tests::runSpliceDataTest()
 		sequences.push_back((*it).second);
 
 	KMeans kmeans(3, sequences.size(), sequences.size(),
-				  sequences, 100, "HAMMING", true, false, false);
+				  sequences, 100, "HAMMING", true, false);
 	kmeans.run();
 
 	std::vector<std::string> cluster1, cluster2, cluster3;
