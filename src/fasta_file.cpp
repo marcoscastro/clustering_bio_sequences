@@ -6,7 +6,7 @@ void FastaFile::readFasta(std::string file_path)
 
 	if(!input.good())
 	{
-		std::cerr << "Error opening FASTA file.\n";
+		std::cerr << "\nError opening FASTA file.\n";
 		exit(1);
 	}
 

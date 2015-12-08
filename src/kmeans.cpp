@@ -229,14 +229,14 @@ void KMeans::showClusters()
 }
 
 KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
-			   int max_iterations, std::vector<std::string> & sequences,
+			   std::vector<std::string> & sequences, int max_iterations,
 			   std::string method, bool kmeansplusplus, bool hybrid, bool show_results)
 {
 	this->total_clusters = total_clusters;
 	this->total_points = total_points;
 	this->total_attributes = total_attributes;
-	this->max_iterations = max_iterations;
 	this->sequences = sequences;
+	this->max_iterations = max_iterations;
 	this->method = method;
 
 	generatesPoints(method);
@@ -522,7 +522,6 @@ void KMeans::run()
 
 		if(done == true || iter >= max_iterations)
 		{
-			std::cout << "Break in iteration " << iter << "\n\n";
 			if(show_results)
 				showClusters();
 			break;

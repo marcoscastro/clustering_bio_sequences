@@ -1,3 +1,9 @@
+/*
+	Clustering of Biological Sequences
+
+	This is a Open-Source Project
+*/
+
 #include <iostream>
 #include <time.h>
 #include <stdlib.h>
@@ -6,83 +12,180 @@
 #include "tests.h"
 #include "fasta_file.h"
 #include "sequence_generator.h"
+#include "common.h"
 
-#define RUN_TESTS 1
-#define RUN_TEST_SPLICE_DATA 1
+#define RUN_TESTS 0
+#define RUN_TEST_SPLICE_DATA 0
 
-void run_tests();
-void run_algorithm();
-void run_test_splice_data();
+void run_algorithm(int clusters, std::string & fasta_file,
+				   int max_iter = 100, const std::string & method = "LCS",
+				   bool kmeansplusplus = true, bool hybrid = false);
 
 int main(int argc, char *argv[])
 {
-	clock_t begin = clock();
+	//clock_t begin = clock();
 
 	srand(time(NULL));
 
-	if(RUN_TESTS)
+	if(RUN_TESTS || RUN_TEST_SPLICE_DATA)
 	{
-		if(!RUN_TEST_SPLICE_DATA)
-			run_tests();
-		else
-			run_test_splice_data();
+		Tests tests;
+
+		if(RUN_TESTS)
+			tests.runAllTests();
+		if(RUN_TEST_SPLICE_DATA)
+			tests.runSpliceDataTest();
 	}
 	else
-		run_algorithm();
+	{
+		std::string instructions;
 
+		// checks the number of arguments
+		if(argc > 1)
+		{
+			std::string number_clusters(argv[1]);
+
+			if(number_clusters == "help")
+			{
+				instructions = "\nTwo parameters are required: number of clusters and fasta file.\
+								\n\nCommand example 1:\
+								\n\n\tmy_executable <number_of_clusters> <fasta_file>\
+								\n\n\tmy_executable 3 my_file.fasta\
+								\n\nOptional parameters:\
+								\n\n\t[max_iterations] -> maximum of iterations, default is 100.\
+								\n\n\t[comparison_method] -> method to compare strings, default is LCS.\
+								\n\n\t\tMethods available:\
+								\n\n\t\tLD -> levenshtein distance (edit distance)\
+								\n\n\t\tNW -> Needleman-Wunsch (optimal global alignment)\
+								\n\n\t\tSW -> Smith-Waterman (optimal local alignment)\
+								\n\n\t\tWS -> White-Similarity or Dice's Coefficient (similarity ranking)\
+								\n\n\t\tLCS -> Longest Common Subsequence\
+								\n\n\t\tHAMMING -> Hamming distance (only for strings of equal length)\
+								\n\nCommand example 2:\
+								\n\n\tmy_executable <number_of_clusters> <fasta_file> [max_iterations] [comparison_method]\
+								\n\n\tmy_executable 3 my_file.fasta 50 NW\
+								\n\nObservation: KMeans++ is used for default.\
+								\n\nYou do not want to use the KMeans++? Try this for example:\
+								\n\n\tmy_executable <number_of_clusters> <fasta_file> [max_iterations] [comparison_method] [uses_kmeansplusplus]\
+								\n\n\tmy_executable 3 my_file_fasta 50 NW 0\
+								\n\n\tmy_executable 3 my_file_fasta 50 NW 1\
+								\n\nThe number 0 indicates that you not will use KMeans++.\
+								\nThe number 1 indicates that KMeans++ will be used.\
+								\n\nYou want to use the hybrid clustering? Try this:\
+								\n\n\tmy_executable <number_of_clusters> <fasta_file> [max_iterations] [comparison_method] [uses_kmeansplusplus] [uses_hybrid]\
+							   	\n\n\tmy_executable 3 my_file.fasta 50 NW 0 1\
+							   	\n\n\tExplanation:\
+								\n\t\t3 -> number of clusters\
+								\n\t\t50 -> maximum iterations\
+								\n\t\t0 -> Dont uses KMeans++\
+								\n\t\t1 -> Uses the hybrid clustering\
+								\n\nInstructions for use of Elbow Method\n\
+								\nElbow method try find out the best number of clusters. Compile the project with main_elbow.cpp.\
+								\nThe implementation of the Elbow method requires the external library koolplot.\n\
+							   ";
+
+				std::cout << instructions;
+			}
+			else
+			{
+				if(contains_number(number_clusters) == true)
+				{
+					int n_clusters = atoi(number_clusters.c_str());
+
+					if(argc > 2)
+					{
+						std::string fasta_file(argv[2]);
+
+						if(argc > 3)
+						{
+							std::string max_iterarions(argv[3]);
+
+							if(contains_number(max_iterarions) == true)
+							{
+								int max_iter = atoi(max_iterarions.c_str());
+
+								if(argc > 4)
+								{
+									std::string method(argv[4]);
+
+									if(method != "NW" && method != "WS" &&
+											method != "LCS" && method != "HAMMING" &&
+											method != "ED" && method != "SW")
+										std::cout << "\nError: method not found.\n";
+									else
+									{
+										if(argc > 5)
+										{
+											std::string kmeansplusplus(argv[5]);
+											bool flag_kmeansplusplus = true;
+
+											if(kmeansplusplus == "0")
+												flag_kmeansplusplus = false;
+
+											if(argc > 6)
+											{
+												std::string hybrid(argv[6]);
+												bool flag_hybrid = true;
+
+												if(hybrid == "0")
+													flag_hybrid = false;
+
+												run_algorithm(n_clusters, fasta_file, max_iter,
+															  method, flag_kmeansplusplus, flag_hybrid);
+											}
+											else
+												run_algorithm(n_clusters, fasta_file,
+															  max_iter, method, flag_kmeansplusplus);
+										}
+										else
+											run_algorithm(n_clusters, fasta_file, max_iter, method);
+									}
+								}
+								else
+									run_algorithm(n_clusters, fasta_file, max_iter);
+							}
+							else
+								std::cout << "\nError: max iterations is a positive integer.\n";
+						}
+						else
+							run_algorithm(n_clusters, fasta_file);
+					}
+					else
+						std::cout << "\nError: fasta file not found.\n";
+
+				}
+				else
+					std::cout << "\nError: number of clusters is a positive integer.\n";
+			}
+
+			//run_algorithm();
+		}
+		else
+		{
+			instructions = "\nInsufficient arguments. Dont panic...\
+		\n\nExample of a basic command: \
+											\n\n\texecutable_name <number_of_clusters> <fasta_file>\
+											\n\n\tmy_executable 3 my_file.fasta\
+											\n\nWant more options ? Execute the command : executable_name help\n";
+
+			std::cout << instructions;
+		}
+	}
+
+	/*
 	clock_t end = clock();
 	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-	std::cout << "\nTime: " << elapsed_secs << " seconds.\n";
+	std::cout << "\nTime : " << elapsed_secs << " seconds.\n";
+	*/
 
 	return 0;
 }
 
-void run_tests()
+void run_algorithm(int clusters, std::string & fasta_file, int max_iter,
+				   const std::string & method, bool kmeansplusplus, bool hybrid)
 {
-	Tests tests;
-	tests.runAllTests();
-}
-
-void run_algorithm()
-{
-	SequenceGenerator gen;
-	std::vector<std::string> sequences;
-
-	int amount_sequences = 100;
-
-	gen.generateSequences(sequences, amount_sequences, 50, 100);
-
-	/*
-		Parameters in order:
-			1) number of clusters
-			2) total points
-			3) total attributes
-			4) max iterations
-			5) sequences
-			6) method for convert to a data point
-			7) uses kmeans++ ?
-			8) uses hybrid (mean function + harmonic mean) ?
-			9) show results ?
-	*/
-
-	int clusters = sqrt(sequences.size() / 2);
-	int max_iter = 1000;
-	std::string method("LCS");
-	bool kmeansplusplus = true;
-	bool hybrid = false;
-	bool show_results = true;
-
-	KMeans kmeans(clusters, sequences.size(), sequences.size(),
-				  max_iter, sequences, method, kmeansplusplus,
-				  hybrid, show_results);
-
-	kmeans.run();
-}
-
-void run_test_splice_data()
-{
-	std::string dataset_name("splice.data.600.sequences.fasta");
+	std::string dataset_name(fasta_file);
 	FastaFile ff(dataset_name);
 	std::vector<std::pair<std::string, std::string> > dataset;
 
@@ -94,107 +197,20 @@ void run_test_splice_data()
 	for(it = dataset.begin(); it != dataset.end(); it++)
 		sequences.push_back((*it).second);
 
-	KMeans kmeans(3, sequences.size(), sequences.size(),
-				  100, sequences, "HAMMING", true, false, false);
+	/*
+	Parameters in order:
+	1) number of clusters
+	2) total points
+	3) total attributes
+	4) sequences
+	5) max iterations
+	6) method for convert to a data point
+	7) uses kmeans++ ?
+	8) uses hybrid (mean function + harmonic mean) ?
+	*/
+
+	KMeans kmeans(clusters, sequences.size(), sequences.size(),
+				  sequences, max_iter, method, kmeansplusplus, hybrid);
+
 	kmeans.run();
-
-	std::vector<std::string> cluster1, cluster2, cluster3;
-
-	// get sequences of each cluster
-	kmeans.getClusterSequences(0, cluster1);
-	kmeans.getClusterSequences(1, cluster2);
-	kmeans.getClusterSequences(2, cluster3);
-
-	int cluster1EI = 0, cluster1IE = 0, cluster1N = 0;
-
-	for(unsigned int i = 0; i < cluster1.size(); i++)
-	{
-		std::string seq = cluster1[i];
-		std::string class_seq;
-
-		std::vector<std::pair<std::string, std::string> >::iterator it;
-
-		for(it = dataset.begin(); it != dataset.end(); it++)
-		{
-			if((*it).second == seq)
-			{
-				class_seq = (*it).first;
-
-				if(class_seq == "EI")
-					cluster1EI++;
-				else if(class_seq == "IE")
-					cluster1IE++;
-				else if(class_seq == "N")
-					cluster1N++;
-				break;
-			}
-		}
-	}
-
-	int cluster2EI = 0, cluster2IE = 0, cluster2N = 0;
-
-	for(unsigned int i = 0; i < cluster2.size(); i++)
-	{
-		std::string seq = cluster2[i];
-		std::string class_seq;
-
-		std::vector<std::pair<std::string, std::string> >::iterator it;
-
-		for(it = dataset.begin(); it != dataset.end(); it++)
-		{
-			if((*it).second == seq)
-			{
-				class_seq = (*it).first;
-
-				if(class_seq == "EI")
-					cluster2EI++;
-				else if(class_seq == "IE")
-					cluster2IE++;
-				else if(class_seq == "N")
-					cluster2N++;
-				break;
-			}
-		}
-	}
-
-	int cluster3EI = 0, cluster3IE = 0, cluster3N = 0;
-
-	for(unsigned int i = 0; i < cluster3.size(); i++)
-	{
-		std::string seq = cluster3[i];
-		std::string class_seq;
-
-		std::vector<std::pair<std::string, std::string> >::iterator it;
-
-		for(it = dataset.begin(); it != dataset.end(); it++)
-		{
-			if((*it).second == seq)
-			{
-				class_seq = (*it).first;
-
-				if(class_seq == "EI")
-					cluster3EI++;
-				else if(class_seq == "IE")
-					cluster3IE++;
-				else if(class_seq == "N")
-					cluster3N++;
-				break;
-			}
-		}
-	}
-
-	std::cout << "Cluster 1 - Size: " << cluster1.size() << "\n";
-	std::cout << "\nClass EI: " << cluster1EI << " - " << ((double)cluster1EI / cluster1.size()) * 100.0 << "%\n";
-	std::cout << "Class IE: " << cluster1IE << " - " << ((double)cluster1IE / cluster1.size()) * 100.0 << "%\n";
-	std::cout << "Class N: " << cluster1N << " - " << ((double)cluster1N / cluster1.size()) * 100.0 << "%\n";
-
-	std::cout << "\nCluster 2 - Size: " << cluster2.size() << "\n";
-	std::cout << "\nClass EI: " << cluster2EI << " - " << ((double)cluster2EI / cluster2.size()) * 100.0 << "%\n";
-	std::cout << "Class IE: " << cluster2IE << " - " << ((double)cluster2IE / cluster2.size()) * 100.0 << "%\n";
-	std::cout << "Class N: " << cluster2N << " - " << ((double)cluster2N / cluster2.size()) * 100.0 << "%\n";
-
-	std::cout << "\nCluster 3 - Size: " << cluster3.size() << "\n";
-	std::cout << "\nClass EI: " << cluster3EI << " - " << ((double)cluster3EI / cluster3.size()) * 100.0 << "%\n";
-	std::cout << "Class IE: " << cluster3IE << " - " << ((double)cluster3IE / cluster3.size()) * 100.0 << "%\n";
-	std::cout << "Class N: " << cluster3N << " - " << ((double)cluster3N / cluster3.size()) * 100.0 << "%\n";
 }
