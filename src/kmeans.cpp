@@ -7,10 +7,11 @@
 #include "common.h"
 #include "distance_strings.h"
 
-Point::Point(int id_point, std::vector<double> & values, std::string & name)
+Point::Point(int id_point, std::vector<double> & values, std::string & name, std::string & header)
 {
 	this->id_point = id_point;
 	this->values = values;
+	this->header = header;
 	this->name = name;
 	id_cluster = -1;
 	total_values = values.size();
@@ -36,9 +37,14 @@ double Point::getValue(int index)
 	return values[index];
 }
 
-std::string Point::getName()
+std::string & Point::getName()
 {
 	return name;
+}
+
+std::string & Point::getHeader()
+{
+	return header;
 }
 
 int Point::getTotalValues()
@@ -163,7 +169,7 @@ void KMeans::generatesPoints(std::string & method)
 				}
 			}
 
-			Point point(i, values, sequences[i]);
+			Point point(i, values, sequences[i], headers[i]);
 			points.push_back(point);
 
 			values.clear();
@@ -222,7 +228,7 @@ void KMeans::generateResults()
 
 	break_iter << iter;
 	time_elapsed << elapsed_secs;
-	
+
 	report_content += "Break in iteration " + break_iter.str() + "\n";
 	report_content += "Time elapsed: " + time_elapsed.str() + " seconds\n";
 
@@ -241,7 +247,8 @@ void KMeans::generateResults()
 		report_content += "\nAmount sequences: " + total_points.str() + "\n";
 
 		for(int j = 0; j < total_points_cluster; j++)
-			content += clusters[i].getPoint(j).getName() + "\n";
+			content += ">" + clusters[i].getPoint(j).getHeader() + "\n" +
+					   clusters[i].getPoint(j).getName() + "\n";
 
 		generateFile(filename, content);
 	}
@@ -250,8 +257,8 @@ void KMeans::generateResults()
 }
 
 KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
-			   std::vector<std::string> & sequences, int max_iterations,
-			   std::string method, bool kmeansplusplus, bool hybrid)
+			   std::vector<std::string> & sequences,  std::vector<std::string> & headers,
+			   int max_iterations, std::string method, bool kmeansplusplus, bool hybrid)
 {
 	t_begin = clock();
 
@@ -259,6 +266,7 @@ KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 	this->total_points = total_points;
 	this->total_attributes = total_attributes;
 	this->sequences = sequences;
+	this->headers = headers;
 	this->max_iterations = max_iterations;
 	this->method = method;
 

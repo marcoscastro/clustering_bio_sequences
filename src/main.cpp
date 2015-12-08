@@ -181,10 +181,13 @@ void run_algorithm(int clusters, std::string & fasta_file, int max_iter,
 	dataset = ff.getSequences();
 
 	std::vector<std::pair<std::string, std::string> >::iterator it;
-	std::vector<std::string> sequences;
+	std::vector<std::string> sequences, headers;
 
 	for(it = dataset.begin(); it != dataset.end(); it++)
+	{
+		headers.push_back((*it).first);
 		sequences.push_back((*it).second);
+	}
 
 	/*
 	Parameters in order:
@@ -198,8 +201,8 @@ void run_algorithm(int clusters, std::string & fasta_file, int max_iter,
 	8) uses hybrid (mean function + harmonic mean) ?
 	*/
 
-	KMeans kmeans(clusters, sequences.size(), sequences.size(),
-				  sequences, max_iter, method, kmeansplusplus, hybrid);
+	KMeans kmeans(clusters, sequences.size(), sequences.size(), sequences,
+				  headers, max_iter, method, kmeansplusplus, hybrid);
 
 	kmeans.run();
 }

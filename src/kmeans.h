@@ -11,12 +11,12 @@ class Point
 private:
 	int id_point, id_cluster, total_values;
 	std::vector<double> values;
-	std::string name;
+	std::string header, name;
 
 public:
 
 	// constructor
-	Point(int id_point, std::vector<double> & values, std::string & name);
+	Point(int id_point, std::vector<double> & values, std::string & name, std::string & header);
 
 	// get ID of the point
 	int getID();
@@ -31,7 +31,10 @@ public:
 	double getValue(int index);
 
 	// get name of the point
-	std::string getName();
+	std::string & getName();
+
+	// get header of the point
+	std::string & getHeader();
 
 	// get the total values of the point
 	int getTotalValues();
@@ -79,13 +82,13 @@ class KMeans
 
 private:
 	int total_clusters, total_points;
-	int total_attributes, max_iterations;
+	int total_attributes, max_iterations, iter;
 	std::vector<Cluster> clusters;
 	std::vector<Point> points;
 	std::vector<std::string> sequences;
+	std::vector<std::string> headers;
 	bool kmeansplusplus, hybrid;
 	std::string method;
-	int iter;
 	clock_t t_begin, t_end;
 	double elapsed_secs;
 
@@ -103,9 +106,10 @@ private:
 public:
 
 	// constructor
-	KMeans(int total_clusters, int total_points, int total_attributes, 
-			std::vector<std::string> & sequences, int max_iterations = 100,
-		   std::string method = "LCS", bool kmeansplusplus = true, bool hybrid = false);
+	KMeans(int total_clusters, int total_points, int total_attributes,
+		   std::vector<std::string> & sequences, std::vector<std::string> & headers,
+		   int max_iterations = 100, std::string method = "LCS",
+		   bool kmeansplusplus = true, bool hybrid = false);
 
 	// get sequences of a certain cluster
 	void getClusterSequences(int index_cluster, std::vector<std::string> & sequences);

@@ -213,13 +213,16 @@ void Tests::runSpliceDataTest()
 	dataset = ff.getSequences();
 
 	std::vector<std::pair<std::string, std::string> >::iterator it;
-	std::vector<std::string> sequences;
+	std::vector<std::string> sequences, headers;
 
 	for(it = dataset.begin(); it != dataset.end(); it++)
+	{
+		headers.push_back((*it).first);
 		sequences.push_back((*it).second);
+	}
 
 	KMeans kmeans(3, sequences.size(), sequences.size(),
-				  sequences, 100, "HAMMING", true, false);
+				  sequences, headers, 100, "HAMMING", true, false);
 	kmeans.run();
 
 	std::vector<std::string> cluster1, cluster2, cluster3;
