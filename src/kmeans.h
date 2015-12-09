@@ -87,7 +87,7 @@ private:
 	std::vector<Point> points;
 	std::vector<std::string> sequences;
 	std::vector<std::string> headers;
-	bool kmeansplusplus, hybrid;
+	bool kmeansplusplus, hybrid, elbow;
 	std::string method;
 	clock_t t_begin, t_end;
 	double elapsed_secs;
@@ -109,7 +109,7 @@ public:
 	KMeans(int total_clusters, int total_points, int total_attributes,
 		   std::vector<std::string> & sequences, std::vector<std::string> & headers,
 		   int max_iterations = 100, std::string method = "LCS",
-		   bool kmeansplusplus = true, bool hybrid = false);
+		   bool kmeansplusplus = true, bool hybrid = false, bool elbow = false);
 
 	// get sequences of a certain cluster
 	void getClusterSequences(int index_cluster, std::vector<std::string> & sequences);

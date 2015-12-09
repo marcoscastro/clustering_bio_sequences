@@ -258,7 +258,7 @@ void KMeans::generateResults()
 
 KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 			   std::vector<std::string> & sequences,  std::vector<std::string> & headers,
-			   int max_iterations, std::string method, bool kmeansplusplus, bool hybrid)
+			   int max_iterations, std::string method, bool kmeansplusplus, bool hybrid, bool elbow)
 {
 	t_begin = clock();
 
@@ -274,6 +274,7 @@ KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 
 	this->kmeansplusplus = kmeansplusplus;
 	this->hybrid = hybrid;
+	this->elbow = elbow;
 }
 
 // get sequences of the cluster
@@ -560,5 +561,6 @@ void KMeans::run()
 
 	elapsed_secs = double(t_end - t_begin) / CLOCKS_PER_SEC;
 
-	generateResults();
+	if(elbow == false)
+		generateResults();
 }
