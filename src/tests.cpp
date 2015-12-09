@@ -206,7 +206,7 @@ bool Tests::testSmithWaterman()
 
 void Tests::runSpliceDataTest()
 {
-	std::string dataset_name("splice.data.600.sequences.fasta");
+	std::string dataset_name("splice.data.2100.sequences.fasta");
 	FastaFile ff(dataset_name);
 	std::vector<std::pair<std::string, std::string> > dataset;
 

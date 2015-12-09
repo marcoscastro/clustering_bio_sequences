@@ -15,7 +15,7 @@
 #include "common.h"
 
 #define RUN_TESTS 0
-#define RUN_TEST_SPLICE_DATA 0
+#define RUN_TEST_SPLICE_DATA 1
 
 void run_algorithm(int clusters, std::string & fasta_file,
 				   int max_iter = 100, const std::string & method = "LCS",

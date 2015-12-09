@@ -232,6 +232,18 @@ void KMeans::generateResults()
 	report_content += "Break in iteration " + break_iter.str() + "\n";
 	report_content += "Time elapsed: " + time_elapsed.str() + " seconds\n";
 
+	if(odin) // outliers
+	{
+		std::ostringstream stream_outliers, stream_knn;
+
+		stream_outliers << total_outliers;
+		stream_knn << knn;
+
+		report_content += "\nODIN (outlier detection)";
+		report_content += "\nTotal outliers: " + stream_outliers.str();
+		report_content += "\nkNN = " + stream_knn.str() + "\n";
+	}
+
 	for(unsigned int i = 0; i < clusters.size(); i++)
 	{
 		int total_points_cluster = clusters[i].getTotalPoints();
@@ -258,7 +270,8 @@ void KMeans::generateResults()
 
 KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 			   std::vector<std::string> & sequences,  std::vector<std::string> & headers,
-			   int max_iterations, std::string method, bool kmeansplusplus, bool hybrid, bool elbow)
+			   int max_iterations, std::string method, bool kmeansplusplus, bool hybrid,
+			   bool elbow, bool odin, double odin_threshold, int knn)
 {
 	t_begin = clock();
 
@@ -269,12 +282,110 @@ KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 	this->headers = headers;
 	this->max_iterations = max_iterations;
 	this->method = method;
-
-	generatesPoints(method);
-
 	this->kmeansplusplus = kmeansplusplus;
 	this->hybrid = hybrid;
 	this->elbow = elbow;
+	this->odin = odin;
+	this->odin_threshold = odin_threshold;
+
+	generatesPoints(method);
+
+	if(odin) // checks if uses outlier detection
+	{
+		// knn = K nearest neighbors
+		if(knn > 0)
+			this->knn = knn;
+		else
+			this->knn = 0.01 * this->total_points;
+
+		total_outliers = 0;
+
+		/*
+			Implementation of the ODIN method
+			ODIN = Outlier Detection using Indegree Number
+			ODIN is a kNN outlier method, uses kNN graph
+		*/
+
+		std::vector<std::vector<int> > list_adjacency(total_points);
+
+		// for each point
+		for(int point = 0; point < this->total_points; point++)
+		{
+			// build the list of distances of the neighbors of the point
+			std::vector<double> dists_neighbors;
+
+			for(int neighbor = 0; neighbor < this->total_points; neighbor++)
+			{
+				if(point != neighbor)
+					dists_neighbors.push_back(points[point].getValue(neighbor));
+			}
+
+			// get K smallest distance from point to other objects from dataset
+			std::sort(dists_neighbors.begin(), dists_neighbors.end());
+			double K_smallest_dist = dists_neighbors[this->knn - 1];
+
+			// who are the K nearest neighbors?
+			for(int neighbor = 0; neighbor < this->total_points; neighbor++)
+			{
+				if(point != neighbor)
+				{
+					if(points[point].getValue(neighbor) <= K_smallest_dist)
+						list_adjacency[point].push_back(neighbor);
+				}
+			}
+		}
+
+		std::vector<int> in_degree(total_points);
+
+		for(int point = 0; point < this->total_points; point++)
+		{
+			// search for point in the lists of adjacency of the others points
+			for(int other_point = 0; other_point < this->total_points; other_point++)
+			{
+				if(point != other_point)
+				{
+					std::vector<int>::iterator it;
+
+					for(it = list_adjacency[other_point].begin();
+							it != list_adjacency[other_point].end(); it++)
+					{
+						// checks if point is in list adjacency of other_point
+						if(point == *it)
+							in_degree[point]++; // adds in degree of point
+					}
+				}
+			}
+		}
+
+		double outly;
+
+		// checks in-degree number
+		for(int point = 0; point < this->total_points; point++)
+		{
+			// calculates outlyingess of point
+			outly = 1.0 / (in_degree[point] + 1.0);
+
+			// checks if point is a outlier comparing outly with threshold
+			if(outly > odin_threshold)
+			{
+				total_outliers++;
+				outliers_points.push_back(point);
+			}
+		}
+
+		// remove outlies of the sequences vector
+		for(int i = 0; i < total_outliers; i++)
+			this->sequences.erase(this->sequences.begin() + outliers_points[i]);
+
+		// update variables
+		this->total_points = this->total_attributes = this->sequences.size();
+
+		// clear points
+		points.clear();
+
+		// generates again the points
+		generatesPoints(method);
+	}
 }
 
 // get sequences of the cluster

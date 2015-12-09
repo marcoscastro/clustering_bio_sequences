@@ -39,7 +39,7 @@ def build_knn_graph(dataset, dists, N, K, T = 0.9):
 
 		dists_neighbors = []
 
-		# build the list of distances of the neighboors of the index_point
+		# build the list of distances of the neighbors of the index_point
 		for neighbor in range(N):
 			if(index_point != neighbor):
 				if(index_point > neighbor):
@@ -95,9 +95,9 @@ def show_dataset(dataset):
 
 if __name__ == "__main__":
 	
-	N = 1500 # number of the data points
-	K = 11 # number of nearest neighbors
+	N = 600 # number of the data points
 
+	# K is the number of nearest neighbors
 	K = int(0.01 * N) # K is 1% of N
 
 	# generates N datapoints, each datapoint contains N elements
