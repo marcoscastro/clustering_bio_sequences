@@ -206,7 +206,7 @@ bool Tests::testSmithWaterman()
 
 void Tests::runSpliceDataTest()
 {
-	std::string dataset_name("splice.data.2100.sequences.fasta");
+	std::string dataset_name("splice.data.900.sequences.fasta");
 	FastaFile ff(dataset_name);
 	std::vector<std::pair<std::string, std::string> > dataset;
 
@@ -222,7 +222,8 @@ void Tests::runSpliceDataTest()
 	}
 
 	KMeans kmeans(3, sequences.size(), sequences.size(),
-				  sequences, headers, 100, "HAMMING", true, false);
+				  sequences, headers, 100, "HAMMING", true, false,
+				  false, true);
 	kmeans.run();
 
 	std::vector<std::string> cluster1, cluster2, cluster3;
