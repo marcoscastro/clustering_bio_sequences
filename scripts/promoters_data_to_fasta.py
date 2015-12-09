@@ -8,7 +8,7 @@
 	splice.data.txt is a dataset with primate splice-junction gene sequences (DNA)
 
 	Link for download of the original dataset:
-		https://archive.ics.uci.edu/ml/datasets/Molecular+Biology+(Splice-junction+Gene+Sequences)
+		https://archive.ics.uci.edu/ml/datasets/Molecular+Biology+%28Promoter+Gene+Sequences%29
 '''
 
 import sys
