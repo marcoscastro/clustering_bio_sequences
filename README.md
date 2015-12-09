@@ -53,5 +53,15 @@ You want to use the hybrid clustering? Try this:
 
 	my_executable 3 my_file.fasta 50 NW 0 1							   	
 
+	Explanation:								
+		3 -> number of clusters								
+		50 -> maximum iterations								
+		0 -> Dont uses KMeans++								
+		1 -> Uses the hybrid clustering								
+
+Instructions for use of Elbow Method
+								
+Elbow method try find out the best number of clusters. Compile the project with main_elbow.cpp.								
+The implementation of the Elbow method requires the external library koolplot.
 
 Contact: mcastrosouza@live.com :: https://twitter.com/mcastrosouza
