@@ -222,8 +222,7 @@ void Tests::runSpliceDataTest()
 	}
 
 	KMeans kmeans(3, sequences.size(), sequences.size(),
-				  sequences, headers, 100, "HAMMING", true, false,
-				  false, true);
+				  sequences, headers, 100, "HAMMING", true, false);
 	kmeans.run();
 
 	std::vector<std::string> cluster1, cluster2, cluster3;
@@ -325,4 +324,88 @@ void Tests::runSpliceDataTest()
 	std::cout << "\nClass EI : " << cluster3EI << " - " << ((double)cluster3EI / cluster3.size()) * 100.0 << " % \n";
 	std::cout << "Class IE : " << cluster3IE << " - " << ((double)cluster3IE / cluster3.size()) * 100.0 << " % \n";
 	std::cout << "Class N : " << cluster3N << " - " << ((double)cluster3N / cluster3.size()) * 100.0 << " % \n";
+}
+
+void Tests::runPromotersDataTest()
+{
+	std::string dataset_name("promoters.data.fasta");
+	FastaFile ff(dataset_name);
+	std::vector<std::pair<std::string, std::string> > dataset;
+
+	dataset = ff.getSequences();
+
+	std::vector<std::pair<std::string, std::string> >::iterator it;
+	std::vector<std::string> sequences, headers;
+
+	for(it = dataset.begin(); it != dataset.end(); it++)
+	{
+		headers.push_back((*it).first);
+		sequences.push_back((*it).second);
+	}
+
+	KMeans kmeans(2, sequences.size(), sequences.size(),
+				  sequences, headers, 100, "NW", true, false);
+	kmeans.run();
+
+	std::vector<std::string> cluster1, cluster2;
+
+	// get sequences of each cluster
+	kmeans.getClusterSequences(0, cluster1);
+	kmeans.getClusterSequences(1, cluster2);
+
+	int cluster1_class1 = 0, cluster1_class2 = 0;
+
+	for(unsigned int i = 0; i < cluster1.size(); i++)
+	{
+		std::string seq = cluster1[i];
+		std::string class_seq;
+
+		std::vector<std::pair<std::string, std::string> >::iterator it;
+
+		for(it = dataset.begin(); it != dataset.end(); it++)
+		{
+			if((*it).second == seq)
+			{
+				class_seq = (*it).first;
+
+				if(class_seq == "+")
+					cluster1_class1++;
+				else if(class_seq == "-")
+					cluster1_class2++;
+				break;
+			}
+		}
+	}
+
+	int cluster2_class1 = 0, cluster2_class2 = 0;
+
+	for(unsigned int i = 0; i < cluster2.size(); i++)
+	{
+		std::string seq = cluster2[i];
+		std::string class_seq;
+
+		std::vector<std::pair<std::string, std::string> >::iterator it;
+
+		for(it = dataset.begin(); it != dataset.end(); it++)
+		{
+			if((*it).second == seq)
+			{
+				class_seq = (*it).first;
+
+				if(class_seq == "+")
+					cluster2_class1++;
+				else if(class_seq == "-")
+					cluster2_class2++;
+				break;
+			}
+		}
+	}
+
+	std::cout << "Cluster 1 - Size : " << cluster1.size() << "\n";
+	std::cout << "\nClass + : " << cluster1_class1 << " - " << ((double)cluster1_class1 / cluster1.size()) * 100.0 << " % \n";
+	std::cout << "Class - : " << cluster1_class2 << " - " << ((double)cluster1_class2 / cluster1.size()) * 100.0 << " % \n";
+
+	std::cout << "\nCluster 2 - Size : " << cluster2.size() << "\n";
+	std::cout << "\nClass + : " << cluster2_class1 << " - " << ((double)cluster2_class1 / cluster2.size()) * 100.0 << " % \n";
+	std::cout << "Class - : " << cluster2_class2 << " - " << ((double)cluster2_class2 / cluster2.size()) * 100.0 << " % \n";
 }

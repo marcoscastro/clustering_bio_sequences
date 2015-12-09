@@ -17,6 +17,7 @@ public:
 	bool testHammingDistance();
 	bool testSmithWaterman();
 	void runSpliceDataTest();
+	void runPromotersDataTest();
 };
 
 #endif

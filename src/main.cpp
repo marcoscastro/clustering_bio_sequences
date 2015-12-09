@@ -15,7 +15,8 @@
 #include "common.h"
 
 #define RUN_TESTS 0
-#define RUN_TEST_SPLICE_DATA 1
+#define RUN_TEST_SPLICE_DATA 0
+#define RUN_TEST_PROMOTERS_DATA 1
 
 void run_algorithm(int clusters, std::string & fasta_file,
 				   int max_iter = 100, const std::string & method = "LCS",
@@ -25,7 +26,7 @@ int main(int argc, char *argv[])
 {
 	srand(time(NULL));
 
-	if(RUN_TESTS || RUN_TEST_SPLICE_DATA)
+	if(RUN_TESTS || RUN_TEST_SPLICE_DATA || RUN_TEST_PROMOTERS_DATA)
 	{
 		Tests tests;
 
@@ -33,6 +34,8 @@ int main(int argc, char *argv[])
 			tests.runAllTests();
 		if(RUN_TEST_SPLICE_DATA)
 			tests.runSpliceDataTest();
+		else if(RUN_TEST_PROMOTERS_DATA)
+			tests.runPromotersDataTest();
 	}
 	else
 	{
