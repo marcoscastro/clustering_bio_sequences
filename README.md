@@ -65,6 +65,6 @@ Elbow method try find out the best number of clusters. Compile the project with 
 The implementation of the Elbow method requires the external library koolplot.
 
 The tool was tested with datasets of the repository: https://archive.ics.uci.edu/ml/datasets.html
-The datasets are in datasets folder.
+<br/>The datasets are in datasets folder.
 
 Contact: mcastrosouza@live.com :: https://twitter.com/mcastrosouza
