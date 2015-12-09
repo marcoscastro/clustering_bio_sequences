@@ -223,25 +223,47 @@ int KMeans::getIDNearestCenter(Point & point)
 void KMeans::generateResults()
 {
 	std::string filename_report("report.txt");
-	std::ostringstream break_iter, time_elapsed;
+	std::ostringstream break_iter, time_elapsed, total_sequences;
 	std::string report_content = "";
 
 	break_iter << iter;
 	time_elapsed << elapsed_secs;
+	total_sequences << (total_points + total_outliers);
 
 	report_content += "Break in iteration " + break_iter.str() + "\n";
 	report_content += "Time elapsed: " + time_elapsed.str() + " seconds\n";
+	report_content += "\nTotal sequences: " + total_sequences.str() + "\n";
+	report_content += "\nConfiguration:";
+	report_content += "\nMethod for comparing strings: " + method;
+	report_content += "\nKMeans++? ";
+
+	if(kmeansplusplus)
+		report_content += "Yes\n";
+	else
+		report_content += "No\n";
+
+	report_content += "Hybrid clustering? ";
+
+	if(hybrid)
+		report_content += "Yes\n";
+	else
+		report_content += "No\n";
 
 	if(odin) // outliers
 	{
-		std::ostringstream stream_outliers, stream_knn;
+		std::string filename_outliers("outliers.txt");
+		std::ostringstream stream_outliers, stream_knn, stream_threshold;
 
 		stream_outliers << total_outliers;
 		stream_knn << knn;
+		stream_threshold << odin_threshold;
 
 		report_content += "\nODIN (outlier detection)";
 		report_content += "\nTotal outliers: " + stream_outliers.str();
-		report_content += "\nkNN = " + stream_knn.str() + "\n";
+		report_content += "\nkNN: " + stream_knn.str();
+		report_content += "\nthreshold: " + stream_threshold.str() + "\n";
+
+		generateFile(filename_outliers, outliers_content);
 	}
 
 	for(unsigned int i = 0; i < clusters.size(); i++)
@@ -287,8 +309,10 @@ KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 	this->elbow = elbow;
 	this->odin = odin;
 	this->odin_threshold = odin_threshold;
+	total_outliers = 0;
 
 	generatesPoints(method);
+
 
 	if(odin) // checks if uses outlier detection
 	{
@@ -297,8 +321,6 @@ KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 			this->knn = knn;
 		else
 			this->knn = 0.01 * this->total_points;
-
-		total_outliers = 0;
 
 		/*
 			Implementation of the ODIN method
@@ -359,6 +381,8 @@ KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 
 		double outly;
 
+		outliers_content = "";
+
 		// checks in-degree number
 		for(int point = 0; point < this->total_points; point++)
 		{
@@ -370,6 +394,8 @@ KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 			{
 				total_outliers++;
 				outliers_points.push_back(point);
+				outliers_content += ">" + points[point].getHeader() +
+									"\n" + points[point].getName() + "\n";
 			}
 		}
 

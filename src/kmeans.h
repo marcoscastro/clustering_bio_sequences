@@ -89,7 +89,7 @@ private:
 	std::vector<std::string> headers;
 	std::vector<int> outliers_points;
 	bool kmeansplusplus, hybrid, elbow, odin;
-	std::string method;
+	std::string method, outliers_content;
 	clock_t t_begin, t_end;
 	double elapsed_secs, odin_threshold;
 

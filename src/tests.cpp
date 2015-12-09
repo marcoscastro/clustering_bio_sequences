@@ -343,8 +343,8 @@ void Tests::runPromotersDataTest()
 		sequences.push_back((*it).second);
 	}
 
-	KMeans kmeans(2, sequences.size(), sequences.size(),
-				  sequences, headers, 100, "NW", true, false);
+	KMeans kmeans(2, sequences.size(), sequences.size(), sequences,
+				  headers, 100, "HAMMING", false, true, false, true);
 	kmeans.run();
 
 	std::vector<std::string> cluster1, cluster2;
