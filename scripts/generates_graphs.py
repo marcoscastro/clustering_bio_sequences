@@ -2,7 +2,7 @@
 
 from pylab import *
 
-def show_pie(cluster, labels, fracs, total_sequences):
+def show_pie(cluster, labels, fracs, title_graph):
 
 	labels, fracs, explode = labels, fracs, ()
 	max_idx = fracs.index(max(fracs))
@@ -21,9 +21,7 @@ def show_pie(cluster, labels, fracs, total_sequences):
 	for i in range(len(labels)):
 		my_pie[1][i].set_fontsize(15)
 
-	title('Percentages of sequences of the Cluster ' + str(cluster) + 
-				"\nTotal sequences: " + str(total_sequences), 
-				bbox={'facecolor':'0.8', 'pad':8})
+	title(title_graph, bbox={'facecolor':'0.8', 'pad':8})
 
 	show()
 
@@ -35,7 +33,10 @@ if __name__ == "__main__":
 	amount_sequences = [16, 284, 30]
 	fracs = []
 
+	title_graph = 'Percentages of sequences of the Cluster ' + str(cluster) + \
+					'\nTotal sequences: ' + str(total_sequences)
+
 	for i in amount_sequences:
 		fracs.append((i / float(total_sequences)) * 100)
 
-	show_pie(cluster, labels, fracs, total_sequences)
+	show_pie(cluster, labels, fracs, title_graph)
