@@ -62,7 +62,8 @@ void Elbow::run()
 	for(int k = k_low; k <= k_high; k++)
 	{
 		KMeans kmeans(k, size_sequences, size_sequences, sequences,
-					  headers, max_iterations, method, kmeansplusplus, hybrid, true);
+					  headers, max_iterations, method, kmeansplusplus,
+					  hybrid, false, 0.89, 3, true);
 		kmeans.run();
 
 		// for each cluster

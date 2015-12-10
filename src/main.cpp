@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 								\n\n\t[max_iterations] -> maximum of iterations, default is 100.\
 								\n\n\t[comparison_method] -> method to compare strings, default is LCS.\
 								\n\n\t\tMethods available:\
-								\n\n\t\tLD -> levenshtein distance (edit distance)\
+								\n\n\t\tED -> edit distance (levenshtein distance)\
 								\n\n\t\tNW -> Needleman-Wunsch (optimal global alignment)\
 								\n\n\t\tSW -> Smith-Waterman (optimal local alignment)\
 								\n\n\t\tWS -> White-Similarity or Dice's Coefficient (similarity ranking)\

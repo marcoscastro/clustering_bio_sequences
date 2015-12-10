@@ -15,7 +15,7 @@ Optional parameters:
 
 		Methods available:								
 
-		LD -> levenshtein distance (edit distance)								
+		ED -> edit distance (levenshtein distance)								
 
 		NW -> Needleman-Wunsch (optimal global alignment)								
 
