@@ -113,5 +113,3 @@ if __name__ == "__main__":
 
 	# build kNNG (kNN graph) for detection outliers
 	build_knn_graph(dataset, dists, N, K, 0.89)
-
-	print('K: %d' % K)
