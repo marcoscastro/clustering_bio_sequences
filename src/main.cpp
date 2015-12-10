@@ -15,12 +15,12 @@
 #include "common.h"
 
 #define RUN_TESTS 0
-#define RUN_TEST_SPLICE_DATA 1
+#define RUN_TEST_SPLICE_DATA 0
 #define RUN_TEST_PROMOTERS_DATA 0
 
 void run_algorithm(int clusters, std::string & fasta_file,
 				   int max_iter = 100, const std::string & method = "LCS",
-				   bool kmeansplusplus = true, bool hybrid = false);
+				   bool kmeansplusplus = true, bool hybrid = false, bool odin = false);
 
 int main(int argc, char *argv[])
 {
@@ -80,6 +80,9 @@ int main(int argc, char *argv[])
 								\n\t\t50 -> maximum iterations\
 								\n\t\t0 -> Dont uses KMeans++\
 								\n\t\t1 -> Uses the hybrid clustering\
+								\n\nTo use ODIN (outliers detection):\
+								\n\n\tmy_executable <number_of_clusters> <fasta_file> [max_iterations] [comparison_method] [uses_kmeansplusplus] [uses_hybrid] [uses_odin]\
+								\n\tmy_executable 3 my_file.fasta 50 NW 0 1 1\
 								\n\nInstructions for use of Elbow Method\n\
 								\nElbow method try find out the best number of clusters. Compile the project with main_elbow.cpp.\
 								\nThe implementation of the Elbow method requires the external library koolplot.\n\
@@ -126,13 +129,25 @@ int main(int argc, char *argv[])
 											if(argc > 6)
 											{
 												std::string hybrid(argv[6]);
-												bool flag_hybrid = true;
+												bool flag_hybrid = false;
 
-												if(hybrid == "0")
-													flag_hybrid = false;
+												if(hybrid == "1")
+													flag_hybrid = true;
 
-												run_algorithm(n_clusters, fasta_file, max_iter,
-															  method, flag_kmeansplusplus, flag_hybrid);
+												if(argc > 7)
+												{
+													std::string odin(argv[7]);
+													bool flag_odin = false;
+													
+													if(odin == "1")
+														flag_odin = true;
+													
+													run_algorithm(n_clusters, fasta_file, max_iter,
+																  method, flag_kmeansplusplus, flag_hybrid, flag_odin);
+												}
+												else
+													run_algorithm(n_clusters, fasta_file, max_iter,
+																  method, flag_kmeansplusplus, flag_hybrid);
 											}
 											else
 												run_algorithm(n_clusters, fasta_file,
@@ -175,7 +190,7 @@ int main(int argc, char *argv[])
 }
 
 void run_algorithm(int clusters, std::string & fasta_file, int max_iter,
-				   const std::string & method, bool kmeansplusplus, bool hybrid)
+				   const std::string & method, bool kmeansplusplus, bool hybrid, bool odin)
 {
 	std::string dataset_name(fasta_file);
 	FastaFile ff(dataset_name);
@@ -205,7 +220,7 @@ void run_algorithm(int clusters, std::string & fasta_file, int max_iter,
 	*/
 
 	KMeans kmeans(clusters, sequences.size(), sequences.size(), sequences,
-				  headers, max_iter, method, kmeansplusplus, hybrid);
+				  headers, max_iter, method, kmeansplusplus, hybrid, odin);
 
 	kmeans.run();
 }

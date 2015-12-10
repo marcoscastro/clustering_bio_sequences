@@ -222,7 +222,7 @@ void Tests::runSpliceDataTest()
 	}
 
 	KMeans kmeans(3, sequences.size(), sequences.size(), sequences,
-					headers, 100, "HAMMING", true, false, false, false);
+					headers, 100, "HAMMING", true, false, true);
 	kmeans.run();
 
 	std::vector<std::string> cluster1, cluster2, cluster3;
@@ -344,7 +344,7 @@ void Tests::runPromotersDataTest()
 	}
 
 	KMeans kmeans(2, sequences.size(), sequences.size(), sequences,
-				  headers, 100, "HAMMING", false, true, false, true);
+				  headers, 100, "HAMMING", false, false, false);
 	kmeans.run();
 
 	std::vector<std::string> cluster1, cluster2;

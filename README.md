@@ -1,4 +1,3 @@
-# Clustering of Biological Sequences
 
 Two parameters are required: number of clusters and fasta file.								
 
@@ -59,11 +58,16 @@ You want to use the hybrid clustering? Try this:
 		0 -> Dont uses KMeans++								
 		1 -> Uses the hybrid clustering								
 
+To use ODIN (outliers detection):								
+
+	my_executable <number_of_clusters> <fasta_file> [max_iterations] [comparison_method] [uses_kmeansplusplus] [uses_hybrid] [uses_odin]								
+	my_executable 3 my_file.fasta 50 NW 0 1 1								
+
 Instructions for use of Elbow Method
 								
 Elbow method try find out the best number of clusters. Compile the project with main_elbow.cpp.								
 The implementation of the Elbow method requires the external library koolplot.
-
+							   
 The tool was tested with datasets of the repository: https://archive.ics.uci.edu/ml/datasets.html
 <br/>The datasets are in datasets folder.
 

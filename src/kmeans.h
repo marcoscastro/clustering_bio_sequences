@@ -110,8 +110,8 @@ public:
 	KMeans(int total_clusters, int total_points, int total_attributes,
 		   std::vector<std::string> & sequences, std::vector<std::string> & headers,
 		   int max_iterations = 100, std::string method = "LCS",
-		   bool kmeansplusplus = true, bool hybrid = false, bool elbow = false,
-		   bool odin = false, double odin_threshold = 0.89, int knn = 3);
+		   bool kmeansplusplus = true, bool hybrid = false, bool odin = false,
+		   double odin_threshold = 0.89, int knn = 3, bool elbow = false);
 
 	// get sequences of a certain cluster
 	void getClusterSequences(int index_cluster, std::vector<std::string> & sequences);

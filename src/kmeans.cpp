@@ -293,7 +293,7 @@ void KMeans::generateResults()
 KMeans::KMeans(int total_clusters, int total_points, int total_attributes,
 			   std::vector<std::string> & sequences,  std::vector<std::string> & headers,
 			   int max_iterations, std::string method, bool kmeansplusplus, bool hybrid,
-			   bool elbow, bool odin, double odin_threshold, int knn)
+			   bool odin, double odin_threshold, int knn, bool elbow)
 {
 	t_begin = clock();
 
