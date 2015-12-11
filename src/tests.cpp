@@ -222,7 +222,7 @@ void Tests::runSpliceDataTest()
 	}
 
 	KMeans kmeans(3, sequences.size(), sequences.size(), sequences,
-					headers, 100, "HAMMING", true, false, true);
+				  headers, 100, "HAMMING", true, false, true);
 	kmeans.run();
 
 	std::vector<std::string> cluster1, cluster2, cluster3;
@@ -343,69 +343,93 @@ void Tests::runPromotersDataTest()
 		sequences.push_back((*it).second);
 	}
 
-	KMeans kmeans(2, sequences.size(), sequences.size(), sequences,
-				  headers, 100, "HAMMING", false, false, false);
-	kmeans.run();
+	int accept = 0, total_tests = 10;
 
-	std::vector<std::string> cluster1, cluster2;
-
-	// get sequences of each cluster
-	kmeans.getClusterSequences(0, cluster1);
-	kmeans.getClusterSequences(1, cluster2);
-
-	int cluster1_class1 = 0, cluster1_class2 = 0;
-
-	for(unsigned int i = 0; i < cluster1.size(); i++)
+	for(int test = 0; test < total_tests; test++)
 	{
-		std::string seq = cluster1[i];
-		std::string class_seq;
+		KMeans kmeans(2, sequences.size(), sequences.size(), sequences,
+					  headers, 100, "HAMMING", true, true, false);
+		kmeans.run();
 
-		std::vector<std::pair<std::string, std::string> >::iterator it;
+		std::vector<std::string> cluster1, cluster2;
 
-		for(it = dataset.begin(); it != dataset.end(); it++)
+		// get sequences of each cluster
+		kmeans.getClusterSequences(0, cluster1);
+		kmeans.getClusterSequences(1, cluster2);
+
+		int cluster1_class1 = 0, cluster1_class2 = 0;
+
+		for(unsigned int i = 0; i < cluster1.size(); i++)
 		{
-			if((*it).second == seq)
-			{
-				class_seq = (*it).first;
+			std::string seq = cluster1[i];
+			std::string class_seq;
 
-				if(class_seq == "+")
-					cluster1_class1++;
-				else if(class_seq == "-")
-					cluster1_class2++;
-				break;
+			std::vector<std::pair<std::string, std::string> >::iterator it;
+
+			for(it = dataset.begin(); it != dataset.end(); it++)
+			{
+				if((*it).second == seq)
+				{
+					class_seq = (*it).first;
+
+					if(class_seq == "+")
+						cluster1_class1++;
+					else if(class_seq == "-")
+						cluster1_class2++;
+					break;
+				}
 			}
 		}
-	}
 
-	int cluster2_class1 = 0, cluster2_class2 = 0;
+		int cluster2_class1 = 0, cluster2_class2 = 0;
 
-	for(unsigned int i = 0; i < cluster2.size(); i++)
-	{
-		std::string seq = cluster2[i];
-		std::string class_seq;
-
-		std::vector<std::pair<std::string, std::string> >::iterator it;
-
-		for(it = dataset.begin(); it != dataset.end(); it++)
+		for(unsigned int i = 0; i < cluster2.size(); i++)
 		{
-			if((*it).second == seq)
-			{
-				class_seq = (*it).first;
+			std::string seq = cluster2[i];
+			std::string class_seq;
 
-				if(class_seq == "+")
-					cluster2_class1++;
-				else if(class_seq == "-")
-					cluster2_class2++;
-				break;
+			std::vector<std::pair<std::string, std::string> >::iterator it;
+
+			for(it = dataset.begin(); it != dataset.end(); it++)
+			{
+				if((*it).second == seq)
+				{
+					class_seq = (*it).first;
+
+					if(class_seq == "+")
+						cluster2_class1++;
+					else if(class_seq == "-")
+						cluster2_class2++;
+					break;
+				}
 			}
 		}
+
+		double percent_cluster1_class1 = ((double)cluster1_class1 / cluster1.size()) * 100.0;
+		double percent_cluster1_class2 = ((double)cluster1_class2 / cluster1.size()) * 100.0;
+		double percent_cluster2_class1 = ((double)cluster2_class1 / cluster2.size()) * 100.0;
+		double percent_cluster2_class2 = ((double)cluster2_class2 / cluster2.size()) * 100.0;
+
+		if(cluster1.size() >= 48 && cluster1.size() <= 58)
+		{
+			if(cluster2.size() >= 48 && cluster2.size() <= 58)
+			{
+				if(percent_cluster1_class1 >= 85.0 || percent_cluster1_class2 >= 85.0)
+				{
+					if(percent_cluster2_class1 >= 85.0 || percent_cluster2_class2 >= 85.0)
+						accept++;
+				}
+			}
+		}
+
+		std::cout << "Cluster 1 - Size : " << cluster1.size() << "\n";
+		std::cout << "\nClass + : " << cluster1_class1 << " - " << ((double)cluster1_class1 / cluster1.size()) * 100.0 << " % \n";
+		std::cout << "Class - : " << cluster1_class2 << " - " << ((double)cluster1_class2 / cluster1.size()) * 100.0 << " % \n";
+
+		std::cout << "\nCluster 2 - Size : " << cluster2.size() << "\n";
+		std::cout << "\nClass + : " << cluster2_class1 << " - " << ((double)cluster2_class1 / cluster2.size()) * 100.0 << " % \n";
+		std::cout << "Class - : " << cluster2_class2 << " - " << ((double)cluster2_class2 / cluster2.size()) * 100.0 << " % \n";
 	}
 
-	std::cout << "Cluster 1 - Size : " << cluster1.size() << "\n";
-	std::cout << "\nClass + : " << cluster1_class1 << " - " << ((double)cluster1_class1 / cluster1.size()) * 100.0 << " % \n";
-	std::cout << "Class - : " << cluster1_class2 << " - " << ((double)cluster1_class2 / cluster1.size()) * 100.0 << " % \n";
-
-	std::cout << "\nCluster 2 - Size : " << cluster2.size() << "\n";
-	std::cout << "\nClass + : " << cluster2_class1 << " - " << ((double)cluster2_class1 / cluster2.size()) * 100.0 << " % \n";
-	std::cout << "Class - : " << cluster2_class2 << " - " << ((double)cluster2_class2 / cluster2.size()) * 100.0 << " % \n";
+	std::cout << "\nClustering accept: " << accept << "\n";
 }

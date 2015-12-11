@@ -28,9 +28,9 @@ def show_pie(cluster, labels, fracs, title_graph):
 if __name__ == "__main__":
 
 	cluster = 1
-	total_sequences = 330
-	labels = ('EI', 'IE', 'N')
-	amount_sequences = [16, 284, 30]
+	total_sequences = 57
+	labels = ('Promoter (+)', 'No Promoter (-)')
+	amount_sequences = [7, 50]
 	fracs = []
 
 	title_graph = 'Percentages of sequences of the Cluster ' + str(cluster) + \
