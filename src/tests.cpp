@@ -206,7 +206,7 @@ bool Tests::testSmithWaterman()
 
 void Tests::runSpliceDataTest()
 {
-	std::string dataset_name("splice.data.2100.sequences.fasta");
+	std::string dataset_name("splice.data.fasta");
 	FastaFile ff(dataset_name);
 	std::vector<std::pair<std::string, std::string> > dataset;
 
@@ -221,13 +221,13 @@ void Tests::runSpliceDataTest()
 		sequences.push_back((*it).second);
 	}
 
-	int accept = 0, total_tests = 50;
+	int accept = 0, total_tests = 100;
 
 	for(int test = 0; test < total_tests; test++)
 	{
 
 		KMeans kmeans(3, sequences.size(), sequences.size(), sequences,
-					  headers, 100, "HAMMING", false, false, false);
+					  headers, 100, "HAMMING", true, false, false);
 		kmeans.run();
 
 		std::vector<std::string> cluster1, cluster2, cluster3;
@@ -465,7 +465,7 @@ void Tests::runPromotersDataTest()
 		std::cout << "\nClass + : " << cluster2_class1 << " - " << ((double)cluster2_class1 / cluster2.size()) * 100.0 << " % \n";
 		std::cout << "Class - : " << cluster2_class2 << " - " << ((double)cluster2_class2 / cluster2.size()) * 100.0 << " % \n";
 
-		std::cout << "\nClustering accept: " << accept << "\nIter: " << test + 1 << "\n";
+		std::cout << "\nClustering accept: " << accept << "\nIter: " << test + 1 << "\n\n";
 	}
 
 	std::cout << "\nClustering accept: " << accept << "\n";
