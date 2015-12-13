@@ -379,12 +379,12 @@ void Tests::runPromotersDataTest()
 		sequences.push_back((*it).second);
 	}
 
-	int accept = 0, total_tests = 100;
+	int accept = 0, total_tests = 1;
 
 	for(int test = 0; test < total_tests; test++)
 	{
 		KMeans kmeans(2, sequences.size(), sequences.size(), sequences,
-					  headers, 100, "HAMMING", true, false, false);
+					  headers, 100, "HAMMING", false, false, true);
 		kmeans.run();
 
 		std::vector<std::string> cluster1, cluster2;
