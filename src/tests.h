@@ -18,6 +18,7 @@ public:
 	bool testSmithWaterman();
 	void runSpliceDataTest();
 	void runPromotersDataTest();
+	void runPromotersSpliceDataTest();
 };
 
 #endif

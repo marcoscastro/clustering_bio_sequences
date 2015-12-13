@@ -15,7 +15,7 @@
 #include "common.h"
 
 #define RUN_TESTS 0
-#define RUN_TEST_SPLICE_DATA 1
+#define RUN_TEST_SPLICE_DATA 0
 #define RUN_TEST_PROMOTERS_DATA 0
 
 void run_algorithm(int clusters, std::string & fasta_file,
@@ -36,6 +36,8 @@ int main(int argc, char *argv[])
 			tests.runSpliceDataTest();
 		else if(RUN_TEST_PROMOTERS_DATA)
 			tests.runPromotersDataTest();
+		else if(RUN_TEST_PROMOTERS_SPLICE_DATA)
+			tests.runPromotersSpliceDataTest();
 	}
 	else
 	{
@@ -138,10 +140,10 @@ int main(int argc, char *argv[])
 												{
 													std::string odin(argv[7]);
 													bool flag_odin = false;
-													
+
 													if(odin == "1")
 														flag_odin = true;
-													
+
 													run_algorithm(n_clusters, fasta_file, max_iter,
 																  method, flag_kmeansplusplus, flag_hybrid, flag_odin);
 												}
