@@ -36,8 +36,6 @@ int main(int argc, char *argv[])
 			tests.runSpliceDataTest();
 		else if(RUN_TEST_PROMOTERS_DATA)
 			tests.runPromotersDataTest();
-		else if(RUN_TEST_PROMOTERS_SPLICE_DATA)
-			tests.runPromotersSpliceDataTest();
 	}
 	else
 	{
