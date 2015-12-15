@@ -44,7 +44,7 @@ public:
 	Elbow(int clusters, std::vector<std::string> & sequences,
 		  std::vector<std::string> & headers, int max_iterations = 100,
 		  std::string method = "LCS", bool kmeansplusplus = true,
-		  bool hybrid = false, int k_low = 2, int k_high = 10);
+		  bool hybrid = false, int k_low = 1, int k_high = 10);
 
 	/*
 		The elbow method is to run k-means clustering on the
