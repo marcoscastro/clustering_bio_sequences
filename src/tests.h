@@ -16,9 +16,11 @@ public:
 	bool testLcsDistance();
 	bool testHammingDistance();
 	bool testSmithWaterman();
-	void runSpliceDataTest();
-	void runPromotersDataTest();
+	void runHybridSpliceDataTest900Sequences();
+	void runNoHybridSpliceDataTest900Sequences();
+	void runHybridTestsPromotersData();
 	void runPromotersSpliceDataTest();
+	void runNoHybridTestsPromotersData();
 };
 
 #endif

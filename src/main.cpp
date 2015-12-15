@@ -15,8 +15,10 @@
 #include "common.h"
 
 #define RUN_TESTS 0
-#define RUN_TEST_SPLICE_DATA 0
-#define RUN_TEST_PROMOTERS_DATA 1
+#define RUN_HYBRID_TESTS_SPLICE_DATA_900_SEQUENCES 0
+#define RUN_NO_HYBRID_TESTS_SPLICE_DATA_900_SEQUENCES 0
+#define RUN_HYBRID_TESTS_PROMOTERS_DATA 0
+#define RUN_NO_HYBRID_TESTS_PROMOTERS_DATA 1
 
 void run_algorithm(int clusters, std::string & fasta_file,
 				   int max_iter = 100, const std::string & method = "LCS",
@@ -26,16 +28,22 @@ int main(int argc, char *argv[])
 {
 	srand(time(NULL));
 
-	if(RUN_TESTS || RUN_TEST_SPLICE_DATA || RUN_TEST_PROMOTERS_DATA)
+	if(RUN_TESTS || RUN_HYBRID_TESTS_SPLICE_DATA_900_SEQUENCES ||
+			RUN_NO_HYBRID_TESTS_SPLICE_DATA_900_SEQUENCES ||
+			RUN_HYBRID_TESTS_PROMOTERS_DATA || RUN_NO_HYBRID_TESTS_PROMOTERS_DATA)
 	{
 		Tests tests;
 
 		if(RUN_TESTS)
 			tests.runAllTests();
-		if(RUN_TEST_SPLICE_DATA)
-			tests.runSpliceDataTest();
-		else if(RUN_TEST_PROMOTERS_DATA)
-			tests.runPromotersDataTest();
+		else if(RUN_HYBRID_TESTS_SPLICE_DATA_900_SEQUENCES)
+			tests.runHybridSpliceDataTest900Sequences();
+		else if(RUN_NO_HYBRID_TESTS_SPLICE_DATA_900_SEQUENCES)
+			tests.runNoHybridSpliceDataTest900Sequences();
+		else if(RUN_HYBRID_TESTS_PROMOTERS_DATA)
+			tests.runHybridTestsPromotersData();
+		else if(RUN_NO_HYBRID_TESTS_PROMOTERS_DATA)
+			tests.runNoHybridTestsPromotersData();
 	}
 	else
 	{
@@ -213,10 +221,12 @@ void run_algorithm(int clusters, std::string & fasta_file, int max_iter,
 	2) total points
 	3) total attributes
 	4) sequences
-	5) max iterations
-	6) method for convert to a data point
-	7) uses kmeans++ ?
-	8) uses hybrid (mean function + harmonic mean) ?
+	5) headers of the sequences
+	6) max iterations
+	7) method for convert to a data point
+	8) uses kmeans++ ?
+	9) uses hybrid (mean function + harmonic mean) ?
+	10) uses odin (outliers detection)?
 	*/
 
 	KMeans kmeans(clusters, sequences.size(), sequences.size(), sequences,
