@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 #include <string>
 #include "kmeans.h"
 #include "tests.h"
@@ -221,7 +222,7 @@ void Tests::runHybridSpliceDataTest900Sequences()
 		sequences.push_back((*it).second);
 	}
 
-	int accept = 0, total_tests = 1;
+	int accept = 0, total_tests = 100;
 
 	for(int test = 0; test < total_tests; test++)
 	{
@@ -340,7 +341,7 @@ void Tests::runHybridSpliceDataTest900Sequences()
 				}
 			}
 		}
-		
+
 		std::cout << "\nTest " << test + 1 << "\n";
 
 		std::cout << "\nCluster 1 - Size : " << cluster1.size() << "\n";
@@ -379,7 +380,7 @@ void Tests::runNoHybridSpliceDataTest900Sequences()
 		sequences.push_back((*it).second);
 	}
 
-	int accept = 0, total_tests = 1;
+	int accept = 0, total_tests = 100;
 
 	for(int test = 0; test < total_tests; test++)
 	{
@@ -498,7 +499,7 @@ void Tests::runNoHybridSpliceDataTest900Sequences()
 				}
 			}
 		}
-		
+
 		std::cout << "\nTest " << test + 1 << "\n";
 
 		std::cout << "\nCluster 1 - Size : " << cluster1.size() << "\n";
@@ -537,7 +538,7 @@ void Tests::runHybridTestsPromotersData()
 		sequences.push_back((*it).second);
 	}
 
-	int accept = 0, total_tests = 1;
+	int accept = 0, total_tests = 100;
 
 	for(int test = 0; test < total_tests; test++)
 	{
@@ -646,7 +647,7 @@ void Tests::runNoHybridTestsPromotersData()
 		sequences.push_back((*it).second);
 	}
 
-	int accept = 0, total_tests = 1;
+	int accept = 0, total_tests = 100;
 
 	for(int test = 0; test < total_tests; test++)
 	{

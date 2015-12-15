@@ -18,7 +18,7 @@
 #define RUN_HYBRID_TESTS_SPLICE_DATA_900_SEQUENCES 0
 #define RUN_NO_HYBRID_TESTS_SPLICE_DATA_900_SEQUENCES 0
 #define RUN_HYBRID_TESTS_PROMOTERS_DATA 0
-#define RUN_NO_HYBRID_TESTS_PROMOTERS_DATA 1
+#define RUN_NO_HYBRID_TESTS_PROMOTERS_DATA 0
 
 void run_algorithm(int clusters, std::string & fasta_file,
 				   int max_iter = 100, const std::string & method = "LCS",
@@ -27,6 +27,14 @@ void run_algorithm(int clusters, std::string & fasta_file,
 int main(int argc, char *argv[])
 {
 	srand(time(NULL));
+
+	float rand_value;
+
+	// dispensing rands, "really" random
+	rand_value = rand();
+	rand_value = rand();
+	rand_value = rand();
+	rand_value = rand();
 
 	if(RUN_TESTS || RUN_HYBRID_TESTS_SPLICE_DATA_900_SEQUENCES ||
 			RUN_NO_HYBRID_TESTS_SPLICE_DATA_900_SEQUENCES ||
